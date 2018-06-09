@@ -1,4 +1,4 @@
-# the-system
+# The System
 
 > There's always an edge, we're here to find it
 
