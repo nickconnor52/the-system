@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <header>
-      <span>The System</span>
-    </header>
+    <navbar></navbar>
     <main>
       <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
@@ -11,8 +9,12 @@
 </template>
 
 <script>
+import navbar from '../src/components/global/Navbar.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    navbar
+  }
 }
 </script>
 
