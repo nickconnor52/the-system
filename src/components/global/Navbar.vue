@@ -41,4 +41,8 @@ export default {
 a {
   color: white !important
 }
+
+.test {
+  
+}
 </style>
