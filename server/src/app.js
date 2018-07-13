@@ -52,7 +52,7 @@ app.get('/posts', (req, res) => {
 
 // Fetch all Teams
 app.get('/teams', (req, res) => {
-  Post.find({}, 'title logoRef', function (error, teams) {
+  Team.find({}, 'title logoRef', function (error, teams) {
     if (error) { console.error(error); }
     res.send({
       teams: teams

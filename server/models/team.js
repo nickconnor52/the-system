@@ -6,5 +6,5 @@ var TeamSchema = new Schema({
   logoRef: String
 });
 
-var Post = mongoose.model("Team", TeamSchema);
+var Team = mongoose.model("Team", TeamSchema);
 module.exports = Team;
