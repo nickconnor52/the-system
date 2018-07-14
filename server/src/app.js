@@ -10,8 +10,9 @@ app.use(cors())
 
 // DB
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/posts');
+mongoose.connect('mongodb://localhost:27017/systemdb');
 var db = mongoose.connection;
+var collection = db.collection('teams')
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", function(callback){
   console.log("Connection Succeeded");
@@ -20,13 +21,13 @@ db.once("open", function(callback){
 // Models
 var Team = require("../models/team");
 
-app.get('/posts', (req, res) => {
-  res.send(
-    [{
-      title: "Hello World!",
-      description: "Hi there! How are you??"
-    }]
-  )
+app.get('/teams', (req, res) => {
+  Team.find({}, 'name logoRef', function (error, teams) {
+    if (error) { console.error(error); }
+    res.send({
+      teams: teams
+    })
+  }).sort({_id:-1})
 })
 
 // Add new post -- Deprecated

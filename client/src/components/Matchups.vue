@@ -27,8 +27,25 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'matchups'
+  name: 'matchups',
+  beforeMount () {
+    this.fetchTeams()
+  },
+  methods: {
+    fetchTeams () {
+      console.log('Sup')
+      axios({
+        url: 'http://localhost:8081/teams',
+        method: 'GET'
+      })
+        .then(response => {
+          console.log(response)
+        })
+    }
+  }
 }
 </script>
 <style>
