@@ -11,13 +11,13 @@
             <div class="offset-md-2 col-md-4">
               <div class="card-body logo">
                 <img src="../assets/0020919_cincinnati-bengals_300.png" alt="bengals"/>
-                <h4 class="text-dark">Bengals</h4>
+                <h4 class="text-dark">{{ this.teams[1]['name']}}</h4>
               </div>
             </div>
             <div class="col-md-4">
               <div class="card-body logo">
                 <img src="../assets/0020920_dallas-cowboys_300.png" alt="bengals"/>
-                <h4 class="text-dark">Cowboys</h4>
+                <h4 class="text-dark">{{ this.teams[0]['name'] }}</h4>
               </div>
             </div>
           </div>
@@ -31,19 +31,27 @@ import axios from 'axios'
 
 export default {
   name: 'matchups',
-  beforeMount () {
+  data () {
+    return {
+      teams: []
+    }
+  },
+  created () {
     this.fetchTeams()
   },
   methods: {
     fetchTeams () {
-      console.log('Sup')
       axios({
         url: 'http://localhost:8081/teams',
         method: 'GET'
       })
         .then(response => {
-          console.log(response)
+          this.teams = response.data['teams']
         })
+    },
+    logoSrc (index) {
+      console.log()
+      return '../assets/0020919_cincinnati-bengals_300.png'
     }
   }
 }

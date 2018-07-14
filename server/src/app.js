@@ -22,7 +22,7 @@ var Team = require("../models/team");
 
 // Fetch all Teams
 app.get('/teams', (req, res) => {
-  Team.find({}, 'name logoRef', function (error, teams) {
+  Team.find({}, {}, function (error, teams) {
     if (error) { console.error(error); }
     res.send({
       teams: teams
