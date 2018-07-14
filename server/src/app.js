@@ -21,39 +21,9 @@ db.once("open", function(callback){
 // Models
 var Team = require("../models/team");
 
-app.get('/teams', (req, res) => {
-  Team.find({}, 'name logoRef', function (error, teams) {
-    if (error) { console.error(error); }
-    res.send({
-      teams: teams
-    })
-  }).sort({_id:-1})
-})
-
-// Add new post -- Deprecated
-// app.post('/posts', (req, res) => {
-//   var db = req.db;
-//   var title = req.body.title;
-//   var description = req.body.description;
-//   var new_post = new Post({
-//     title: title,
-//     description: description
-//   })
-
-//   new_post.save(function (error) {
-//     if (error) {
-//       console.log(error)
-//     }
-//     res.send({
-//       success: true,
-//       message: 'Post saved successfully!'
-//     })
-//   })
-// })
-
 // Fetch all Teams
 app.get('/teams', (req, res) => {
-  Team.find({}, 'title logoRef', function (error, teams) {
+  Team.find({}, 'name logoRef', function (error, teams) {
     if (error) { console.error(error); }
     res.send({
       teams: teams
