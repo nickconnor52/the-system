@@ -10,7 +10,7 @@ app.use(cors())
 
 // DB
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/systemdb');
+mongoose.connect('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb');
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", function(callback){
