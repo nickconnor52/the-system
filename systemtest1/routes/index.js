@@ -8,7 +8,14 @@ router.get('/', function(req, res, next) {
 
 /* GET teams page. */
 router.get('/teams', function(req, res, next) {
-  res.render('teams', { title: 'TeamList' });
+  var db = req.db;
+  var collection = db.get('teams');
+  collection.find({}, {}, function(e,docs){
+    console.log(docs)
+    res.render('teams', {
+      "teamsList" : docs
+    });
+  });
 });
 
 module.exports = router;

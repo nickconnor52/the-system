@@ -7,6 +7,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var mongo = require('mongodb');
+var monk = require('monk');
+var db =  monk('127.0.0.1:27017/systemdb');
+
 var app = express();
 
 // view engine setup
@@ -18,6 +22,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

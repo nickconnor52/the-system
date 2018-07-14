@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Check out the teams!
+  h1= 'TeamsPage'
+  ul
+    each team, i in teamsList
+      li
+        p= team.name
