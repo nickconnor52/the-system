@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-var db =  monk('127.0.0.1:27017/systemdb');
+var db =  monk('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb');
 
 var app = express();
 
