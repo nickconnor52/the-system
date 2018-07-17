@@ -42,11 +42,11 @@ export default {
   methods: {
     fetchTeams () {
       axios({
-        url: 'http://localhost:3000/teams',
+        url: 'http://localhost:8081/teams',
         method: 'GET'
       })
         .then(response => {
-          this.teams = response.data['teamsList']
+          this.teams = response.data['teams']
         })
     },
     logoSrc (index) {
