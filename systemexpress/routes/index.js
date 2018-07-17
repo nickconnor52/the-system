@@ -11,8 +11,7 @@ router.get('/teams', function(req, res, next) {
   var db = req.db;
   var collection = db.get('teams');
   collection.find({}, {}, function(e,docs){
-    console.log(docs)
-    res.render('teams', {
+    res.send({
       "teamsList" : docs
     });
   });

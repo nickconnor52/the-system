@@ -11,7 +11,11 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db =  monk('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb');
 
+const cors = require('cors')
+
 var app = express();
+
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
