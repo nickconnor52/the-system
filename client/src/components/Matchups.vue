@@ -42,7 +42,7 @@ export default {
   methods: {
     fetchTeams () {
       axios({
-        url: 'http://localhost:8081/teams',
+        url: 'http://localhost:3000/teams',
         method: 'GET'
       })
         .then(response => {
@@ -50,7 +50,6 @@ export default {
         })
     },
     logoSrc (index) {
-      console.log()
       return '../assets/0020919_cincinnati-bengals_300.png'
     }
   }
