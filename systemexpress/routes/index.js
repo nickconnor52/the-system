@@ -11,13 +11,21 @@ router.get('/', function(req, res, next) {
 
 /* GET teams page. */
 router.get('/teams', function(req, res, next) {
-  var db = req.db;
-  var collection = db.get('teams');
-  collection.find({}, {}, function(e,docs){
+  Team.find({}, {}, function (error, teams) {
+    if (error) { console.error(error); }
     res.send({
-      "teams" : docs
-    });
-  });
+      teams: teams
+    })
+  })
 });
 
 module.exports = router;
+// OLD DB CONNECTION USING MONK
+// FOR REFERENCE
+  // var db = req.db;
+  // var collection = db.get('teams');
+  // collection.find({}, {}, function(e,docs){
+  //   res.send({
+  //     "teams" : docs
+  //   });
+  // });

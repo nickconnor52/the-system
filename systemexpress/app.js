@@ -7,9 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var mongo = require('mongodb');
-var monk = require('monk');
-var db =  monk('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb');
+var mongoose = require('mongoose');
+var db =  mongoose.connect('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb');
 
 const cors = require('cors')
 
