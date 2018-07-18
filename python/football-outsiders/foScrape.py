@@ -1,5 +1,16 @@
 import pandas as pd
 
-[tables] = pd.read_html("http://www.footballoutsiders.com/stats/drivestats", header=0)
+# TODO - add week dynamically for automation
+week = '0'
 
-print(tables.to_json())
+# LOS Data
+tables = pd.read_html("http://www.footballoutsiders.com/stats/drivestats", header=0)
+tables[1].to_json('../storage/football-outsiders/week-' + week + '/LOS.json')
+
+# OFF pts/RZ
+tables = pd.read_html("http://www.footballoutsiders.com/stats/drivestatsoff", header=0)
+tables[1].to_json('../storage/football-outsiders/week-' + week + '/OFF_pts_rz.json')
+
+# DEF pts/RZ
+tables = pd.read_html("http://www.footballoutsiders.com/stats/drivestatsdef2017", header=0)
+tables[1].to_json('../storage/football-outsiders/week-' + week + '/DEF_pts_rz.json')
