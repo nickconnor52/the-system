@@ -4,11 +4,11 @@ from pymongo import MongoClient
 
 # TODO - add week dynamically for automation
 week = '0'
+season = '0'
 
 # LOS Data
 tablesDrive = pd.read_html("http://www.footballoutsiders.com/stats/drivestats", header=0)
 driveJson = json.loads(tablesDrive[1].to_json())
-
 
 # OFF pts/RZ
 tablesOff = pd.read_html("http://www.footballoutsiders.com/stats/drivestatsoff", header=0)
@@ -34,44 +34,32 @@ offTeams = offJson['Team']
 
 finalJson = {}
 
+# ADD Week Info
+thisWeek = weeks_collection.find_one({'number': week, 'season': season})
+
 # DRIVE pts/rz
 for num, team in driveTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
             'team': thisTeam['_id'],
+            'week': thisWeek['_id'],
             'off_los_drive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
             'def_los_drive': driveJson['DEF.LOS/Dr'][num].split(' ')[0],
         }
 
 # OFF pts/rz
-# for num, team in defTeams.items():
-#     if(teams_collection.find_one({'nickname': team})):
-#         thisTeam = teams_collection.find_one({'nickname': team})
-#         finalJson[thisTeam['name']] = {
-#             'team': thisTeam['_id'],
-#             'off_los_drive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
-#             'off_pts_redzone': offJson['Pts/RZ'][num].split(' ')[0],
-#             'def_pts_redzone': defJson['Pts/RZ'][num].split(' ')[0]
-#         }
+for num, team in offTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['off_pts_rz'] = offJson['Pts/RZ'][num].split(' ')[0]
 
-# # DEF pts/rz
-# for num, team in defTeams.items():
-#     if(teams_collection.find_one({'nickname': team})):
-#         thisTeam = teams_collection.find_one({'nickname': team})
-#         finalJson[thisTeam['name']] = {
-#             'team': thisTeam['_id'],
-#             'off_los_drive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
-#             'off_pts_redzone': offJson['Pts/RZ'][num].split(' ')[0],
-#             'def_pts_redzone': defJson['Pts/RZ'][num].split(' ')[0]
-#         }
-
-# 'off_los_drive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
-# 'off_pts_redzone': offJson['Pts/RZ'][num].split(' ')[0],
-
-print(finalJson)   
-
-# collection_fo.insert(finalJson)
+# DEF pts/rz
+for num, team in defTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['def_pts_rz'] = defJson['Pts/RZ'][num].split(' ')[0]
+        stats_collection.insert(finalJson[thisTeam['name']])
 
 # Close DB
 client.close()
