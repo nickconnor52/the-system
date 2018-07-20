@@ -68,7 +68,7 @@ for num, team in giveTeams.items():
             'give_take_diff': giveData['DIFF'][num]
         }
 
-# # OFF pts/rz
+# OFF 3rd Down PCT
 for num, team in off3Teams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
@@ -78,13 +78,37 @@ for num, team in off3Teams.items():
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']]['off_3rd_pct'] = off3Data['PCT'][num]
 
-print(finalJson)
-# # DEF pts/rz
-# for num, team in defTeams.items():
-#     if(teams_collection.find_one({'nickname': team})):
-#         thisTeam = teams_collection.find_one({'nickname': team})
-#         finalJson[thisTeam['name']]['def_pts_rz'] = defJson['Pts/RZ'][num].split(' ')[0]
-#         stats_collection.insert(finalJson[thisTeam['name']])
+# DEF 3rd Down PCT
+for num, team in def3Teams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['def_3rd_pct'] = def3Data['PCT'][num]
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['def_3rd_pct'] = def3Data['PCT'][num]
+
+# OFF Yds/Game
+for num, team in offYdsTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['off_yds_game'] = offYdsData['YDS/G'][num]
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['off_yds_game/G'] = offYdsData['YDS/G'][num]
+
+# DEF Yds/Game
+for num, team in defYdsTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['def_yds_game/G'] = defYdsData['YDS/G'][num]
+        stats_collection.insert(finalJson[thisTeam['name']])
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['def_yds_game/G'] = defYdsData['YDS/G'][num]
+        stats_collection.insert(finalJson[thisTeam['name']])
 
 # Close DB
 client.close()
