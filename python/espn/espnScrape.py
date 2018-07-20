@@ -56,15 +56,11 @@ for num, team in giveTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
-            'team': thisTeam['_id'],
-            'week': thisWeek['_id'],
             'give_take_diff': giveData['DIFF'][num]
         }
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']] = {
-            'team': thisTeam['_id'],
-            'week': thisWeek['_id'],
             'give_take_diff': giveData['DIFF'][num]
         }
 
@@ -99,16 +95,17 @@ for num, team in offYdsTeams.items():
         finalJson[thisTeam['name']]['off_yds_game/G'] = offYdsData['YDS/G'][num]
 
 # DEF Yds/Game
+print(finalJson)
 for num, team in defYdsTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']]['def_yds_game/G'] = defYdsData['YDS/G'][num]
-        stats_collection.insert(finalJson[thisTeam['name']])
+        stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$push': finalJson[thisTeam['name']]})
 
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']]['def_yds_game/G'] = defYdsData['YDS/G'][num]
-        stats_collection.insert(finalJson[thisTeam['name']])
+        stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$push': finalJson[thisTeam['name']]})
 
 # Close DB
 client.close()
