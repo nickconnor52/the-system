@@ -50,11 +50,10 @@ finalJson = {}
 
 # ADD Week Info
 thisWeek = weeks_collection.find_one({'number': week, 'season': season})
-
+check = 0
 # GIVE/TAKE
 for num, team in giveTeams.items():
     if(teams_collection.find_one({'nickname': team})):
-        print(team)
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
             'team': thisTeam['_id'],
@@ -62,7 +61,6 @@ for num, team in giveTeams.items():
             'give_take_diff': giveData['DIFF'][num]
         }
     elif(teams_collection.find_one({'location': team})):
-        print(team)
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']] = {
             'team': thisTeam['_id'],
@@ -70,14 +68,17 @@ for num, team in giveTeams.items():
             'give_take_diff': giveData['DIFF'][num]
         }
 
-print()
-
 # # OFF pts/rz
-# for num, team in offTeams.items():
-#     if(teams_collection.find_one({'nickname': team})):
-#         thisTeam = teams_collection.find_one({'nickname': team})
-#         finalJson[thisTeam['name']]['off_pts_rz'] = offJson['Pts/RZ'][num].split(' ')[0]
+for num, team in off3Teams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['off_3rd_pct'] = off3Data['PCT'][num]
 
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['off_3rd_pct'] = off3Data['PCT'][num]
+
+print(finalJson)
 # # DEF pts/rz
 # for num, team in defTeams.items():
 #     if(teams_collection.find_one({'nickname': team})):
