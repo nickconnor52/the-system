@@ -105,6 +105,5 @@ for num, team in defYdsTeams.items():
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']]['def_yds_game'] = str(defYdsData['YDS/G'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
-print()
 # Close DB
 client.close()
