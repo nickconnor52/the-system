@@ -11,10 +11,14 @@ var StatSchema = new Schema({
   giveTakeDiff: String,
   off3rdPct: String,
   def3rdPct: String,
-  offYdsGame: String,
-  defYdsGame: String,
+  offPassYdsGame: String,
+  offRushYdsGame: String,
+  defPassYdsGame: String,
+  defRushYdsGame: String,
   offRZAGame: String,
   defRZAGame: String,
+  offPtsGame: String,
+  defPtsGame: String,
 });
 
 var Stat = mongoose.model("Stat", StatSchema);

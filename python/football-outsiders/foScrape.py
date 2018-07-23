@@ -2,7 +2,7 @@ import pandas as pd
 import json
 from pymongo import MongoClient
 
-# TODO - add week dynamically for automation
+# TODO - add week dynamically for automation -- Pass in as parameter populated by the shell script
 week = '0'
 season = '0'
 
