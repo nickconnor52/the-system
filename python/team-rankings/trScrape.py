@@ -41,24 +41,24 @@ for num, team in offTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
-            'off_RZA_game': str(offRZAData['2017'][num])
+            'offRZAGame': str(offRZAData['2017'][num])
         }
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']] = {
-            'off_RZA_game': str(offRZAData['2017'][num])
+            'offRZAGame': str(offRZAData['2017'][num])
         }
 
 # DEF Yds/Game
 for num, team in defTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['def_RZA_game'] = str(defRZAData['2017'][num])
+        finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2017'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
 
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['def_RZA_game'] = str(defRZAData['2017'][num])
+        finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2017'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
 
 # Close DB

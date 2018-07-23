@@ -44,21 +44,21 @@ for num, team in driveTeams.items():
         finalJson[thisTeam['name']] = {
             'team': thisTeam['_id'],
             'week': thisWeek['_id'],
-            'off_los_drive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
-            'def_los_drive': driveJson['DEF.LOS/Dr'][num].split(' ')[0],
+            'offLOSDrive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
+            'defLOSDrive': driveJson['DEF.LOS/Dr'][num].split(' ')[0],
         }
 
 # OFF pts/rz
 for num, team in offTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['off_pts_rz'] = offJson['Pts/RZ'][num].split(' ')[0]
+        finalJson[thisTeam['name']]['offPtsRz'] = offJson['Pts/RZ'][num].split(' ')[0]
 
 # DEF pts/rz
 for num, team in defTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['def_pts_rz'] = defJson['Pts/RZ'][num].split(' ')[0]
+        finalJson[thisTeam['name']]['defPtsRz'] = defJson['Pts/RZ'][num].split(' ')[0]
         stats_collection.insert(finalJson[thisTeam['name']])
 
 # Close DB
