@@ -6,10 +6,6 @@ from pymongo import MongoClient
 week = '0'
 season = '0'
 
-# LOS Data ---- FO
-tablesDrive = pd.read_html("http://www.footballoutsiders.com/stats/drivestats", header=0)
-driveJson = json.loads(tablesDrive[1].to_json())
-
 # Give/Take Data
 tablesGive = pd.read_html("http://www.espn.com/nfl/statistics/team/_/stat/givetake", header=1)
 giveData = json.loads(tablesGive[0].to_json())
