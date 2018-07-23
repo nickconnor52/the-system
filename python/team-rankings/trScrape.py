@@ -13,9 +13,13 @@ season = '0'
 tablesGive = pd.read_html("http://www.espn.com/nfl/statistics/team/_/stat/givetake", header=1)
 giveData = json.loads(tablesGive[0].to_json())
 
-# LOS Data
-tables = pd.read_html("https://www.teamrankings.com/nfl/stat/red-zone-scoring-attempts-per-game", header=0)
-tables[0].to_json('../storage/team-rankings/week-' + week + '/RZ_atmpts_game.json')
+# OFF LOS Data
+tablesOffLOS = pd.read_html("https://www.teamrankings.com/nfl/stat/red-zone-scoring-attempts-per-game", header=0)
+offLOSData = json.loads(tablesOffLOS[0].to_json())
+
+# DEF LOS Data
+tablesDefLOS = pd.read_html("https://www.teamrankings.com/nfl/stat/opponent-red-zone-scoring-attempts-per-game", header=0)
+defLOSData = json.loads(tablesDefLOS[0].to_json())
 
 # Connect to DB
 
@@ -27,11 +31,8 @@ teams_collection = db['teams']
 
 # Cleaned Up JSON
 
-def3Teams = def3Data['TEAM']
-off3Teams = off3Data['TEAM']
-giveTeams = giveData['TEAM']
-offYdsTeams = offYdsData['TEAM']
-defYdsTeams = defYdsData['TEAM']
+defTeams = defLOSData['Team']
+offTeams = offLOSData['Team']
 
 finalJson = {}
 
