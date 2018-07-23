@@ -80,26 +80,66 @@ for num, team in def3Teams.items():
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']]['def3rdPct'] = str(def3Data['PCT'][num])
 
-# OFF Yds/Game
+# OFF Pass Yds/Game
 for num, team in offYdsTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['offYdsGame'] = str(offYdsData['YDS/G'][num])
+        finalJson[thisTeam['name']]['offPassYdsGame'] = str(offYdsData['P YDS/G'][num])
 
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['offYdsGame'] = str(offYdsData['YDS/G'][num])
+        finalJson[thisTeam['name']]['offPassYdsGame'] = str(offYdsData['P YDS/G'][num])
 
-# DEF Yds/Game
+# OFF Rushing Yds/Game
+for num, team in offYdsTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['offRushYdsGame'] = str(offYdsData['R YDS/G'][num])
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['offRushYdsGame'] = str(offYdsData['R YDS/G'][num])
+
+# OFF Pts/Game
+for num, team in offYdsTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['offPtsGame'] = str(offYdsData['PTS/G'][num])
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['offPtsGame'] = str(offYdsData['PTS/G'][num])
+
+# OFF Pts/Game
 for num, team in defYdsTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['defYdsGame'] = str(defYdsData['YDS/G'][num])
+        finalJson[thisTeam['name']]['defPtsGame'] = str(offYdsData['PTS/G'][num])
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['defPtsGame'] = str(offYdsData['PTS/G'][num])
+
+# DEF Passing Yds/Game
+for num, team in defYdsTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['defPassYdsGame'] = str(offYdsData['P YDS/G'][num])
+
+    elif(teams_collection.find_one({'location': team})):
+        thisTeam = teams_collection.find_one({'location': team})
+        finalJson[thisTeam['name']]['defPassYdsGame'] = str(offYdsData['P YDS/G'][num])
+
+# DEF Rushing Yds/Game
+for num, team in defYdsTeams.items():
+    if(teams_collection.find_one({'nickname': team})):
+        thisTeam = teams_collection.find_one({'nickname': team})
+        finalJson[thisTeam['name']]['defRushYdsGame'] = str(defYdsData['R YDS/G'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
 
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['defYdsGame'] = str(defYdsData['YDS/G'][num])
+        finalJson[thisTeam['name']]['defRushYdsGame'] = str(defYdsData['R YDS/G'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
 
 # Close DB
