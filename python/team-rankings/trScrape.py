@@ -38,52 +38,22 @@ finalJson = {}
 
 # ADD Week Info
 thisWeek = weeks_collection.find_one({'number': week, 'season': season})
-check = 0
+
 # GIVE/TAKE
-for num, team in giveTeams.items():
+for num, team in offTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
-            'give_take_diff': str(giveData['DIFF'][num])
+            'off_RZA_game': str(giveData['DIFF'][num])
         }
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']] = {
-            'give_take_diff': str(giveData['DIFF'][num])
+            'def_RZA_game': str(giveData['DIFF'][num])
         }
-
-# OFF 3rd Down PCT
-for num, team in off3Teams.items():
-    if(teams_collection.find_one({'nickname': team})):
-        thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['off_3rd_pct'] = str(off3Data['PCT'][num])
-
-    elif(teams_collection.find_one({'location': team})):
-        thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['off_3rd_pct'] = str(off3Data['PCT'][num])
-
-# DEF 3rd Down PCT
-for num, team in def3Teams.items():
-    if(teams_collection.find_one({'nickname': team})):
-        thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['def_3rd_pct'] = str(def3Data['PCT'][num])
-
-    elif(teams_collection.find_one({'location': team})):
-        thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['def_3rd_pct'] = str(def3Data['PCT'][num])
-
-# OFF Yds/Game
-for num, team in offYdsTeams.items():
-    if(teams_collection.find_one({'nickname': team})):
-        thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['off_yds_game'] = str(offYdsData['YDS/G'][num])
-
-    elif(teams_collection.find_one({'location': team})):
-        thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['off_yds_game'] = str(offYdsData['YDS/G'][num])
 
 # DEF Yds/Game
-for num, team in defYdsTeams.items():
+for num, team in defTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']]['def_yds_game'] = str(defYdsData['YDS/G'][num])

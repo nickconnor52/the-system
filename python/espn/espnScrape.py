@@ -46,7 +46,7 @@ finalJson = {}
 
 # ADD Week Info
 thisWeek = weeks_collection.find_one({'number': week, 'season': season})
-check = 0
+
 # GIVE/TAKE
 for num, team in giveTeams.items():
     if(teams_collection.find_one({'nickname': team})):
