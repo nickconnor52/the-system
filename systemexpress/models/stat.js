@@ -18,7 +18,7 @@ var StatSchema = new Schema({
   offRZAGame: String,
   defRZAGame: String,
   offPtsGame: String,
-  defPtsGame: String,
+  defPtsGame: String
 });
 
 var Stat = mongoose.model("Stat", StatSchema);
