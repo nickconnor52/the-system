@@ -7,19 +7,8 @@
       <div class="col-md-12 card" style="width: 18rem;">
         <div class="card-body">
           <p class="card-text">This is where we will display the head to head matchups</p>
-          <div class="row">
-            <div class="offset-md-2 col-md-4">
-              <div class="card-body logo">
-                <img src="../assets/0020919_cincinnati-bengals_300.png" alt="bengals"/>
-                <h4 class="text-dark">{{ teams[1]['name']}}</h4>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card-body logo">
-                <img src="../assets/0020920_dallas-cowboys_300.png" alt="bengals"/>
-                <h4 class="text-dark">{{ teams[0]['name'] }}</h4>
-              </div>
-            </div>
+          <div v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id">
+            <matchup :matchup="thisMatchup"></matchup>
           </div>
         </div>
       </div>
@@ -28,16 +17,22 @@
 </template>
 <script>
 import axios from 'axios'
+import Matchup from './Matchup'
 
 export default {
   name: 'matchups',
+  components: {
+    'matchup': Matchup
+  },
   data () {
     return {
-      teams: null
+      teams: null,
+      matchups: null
     }
   },
   created () {
     this.fetchTeams()
+    this.fetchMatchups()
   },
   methods: {
     fetchTeams () {
@@ -47,6 +42,15 @@ export default {
       })
         .then(response => {
           this.teams = response.data['teams']
+        })
+    },
+    fetchMatchups () {
+      axios({
+        url: 'http://localhost:3000/matchups',
+        method: 'GET'
+      })
+        .then(response => {
+          this.matchups = response.data['matchups']
         })
     },
     logoSrc (index) {

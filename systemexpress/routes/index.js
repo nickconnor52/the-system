@@ -34,10 +34,14 @@ router.get('/stats', function(req, res, next) {
 router.get('/matchups', function(req, res, next) {
   Matchup.find({}, {}, function (error, matchups) {
     if (error) { console.error(error); }
+    matchups.forEach(matchup => {
+      matchup.populate('homeTeam')
+      console.log(matchup)
+    })
     res.send({
       matchups: matchups
     })
-  })
+  }).populate('homeTeam awayTeam')
 });
 
 
