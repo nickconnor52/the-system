@@ -36,7 +36,6 @@ router.get('/matchups', function(req, res, next) {
     if (error) { console.error(error); }
     matchups.forEach(matchup => {
       matchup.populate('homeTeam')
-      console.log(matchup)
     })
     res.send({
       matchups: matchups

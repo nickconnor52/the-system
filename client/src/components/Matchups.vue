@@ -7,9 +7,9 @@
       <div class="col-md-12 card" style="width: 18rem;">
         <div class="card-body">
           <p class="card-text">This is where we will display the head to head matchups</p>
-          <div v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id">
+          <ul v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id">
             <matchup :matchup="thisMatchup"></matchup>
-          </div>
+          </ul>
         </div>
       </div>
     </div>

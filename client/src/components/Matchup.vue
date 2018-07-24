@@ -2,7 +2,7 @@
   <div class="row justify-content-md-center">
     <div class="col-md-4">
       <div class="card-body logo">
-      <img src="../assets/0020920_dallas-cowboys_300.png" alt="bengals"/>
+      <img :src="getSrc(matchup.awayTeam['name'])" :alt="matchup.awayTeam['name']"/>
       <h4 class="text-dark">{{matchup.awayTeam['location'] }} {{matchup.awayTeam['name'] }}</h4>
       </div>
     </div>
@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-4">
       <div class="card-body logo">
-      <img src="../assets/0020919_cincinnati-bengals_300.png" alt="bengals"/>
+      <img :src="getSrc(matchup.homeTeam['name'])" :alt="matchup.homeTeam['name']"/>
       <h4 class="text-dark">{{matchup.homeTeam['location'] }} {{ matchup.homeTeam['name'] }}</h4>
       </div>
     </div>
@@ -23,7 +23,14 @@ export default {
   name: 'matchup',
   props: [
     'matchup'
-  ]
+  ],
+  methods: {
+    getSrc (name) {
+      // var images = require.context('../assets/', false, /\.png$/)
+      // return images('./' + team['name'].toLowerCase() + '.png')
+      return '../../static/img/logos/' + name + '.png'
+    }
+  }
 }
 </script>
 
