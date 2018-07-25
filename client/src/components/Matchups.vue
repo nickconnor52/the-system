@@ -7,7 +7,7 @@
       <div class="col-md-12 card" style="width: 18rem;">
         <div class="card-body container-fluid">
           <div class="row justify-content-md-center">
-            <button type="button" class="btn btn-primary" @click="showModal = true">
+            <button type="button" class="btn btn-primary" style="margin-bottom: 10px" @click="showModal = true">
               Add Matchup
             </button>
           </div>
@@ -32,16 +32,28 @@
               </div>
               <div class="modal-body container">
                 <div class="row">
-                  <p class="col-md-4">Add a matchup:</p>
+                  <label class="col-md-3 col-form-label" for="homeTeam">Home Team:</label>
                   <multiselect
-                    v-model="selected"
+                    id="homeTeam"
+                    class="col-md-8"
+                    v-model="homeSelected"
+                    :options="options">
+                  </multiselect>
+                </div>
+                <br>
+                <div class="row">
+                  <label class="col-md-3 col-form-label" for="homeTeam">Away Team:</label>
+                  <multiselect
+                    id="awayTeam"
+                    class="col-md-8"
+                    v-model="awaySelected"
                     :options="options">
                   </multiselect>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" @click="selectTeams()">Save changes</button>
               </div>
             </div>
           </div>
@@ -67,8 +79,13 @@ export default {
       teams: null,
       matchups: null,
       showModal: false,
-      selected: null,
-      options: ['list', 'of', 'options']
+      homeSelected: null,
+      awaySelected: null
+    }
+  },
+  computed: {
+    options () {
+      return this.teams.map(team => team.name)
     }
   },
   created () {
@@ -96,6 +113,13 @@ export default {
     },
     logoSrc (index) {
       return '../assets/0020919_cincinnati-bengals_300.png'
+    },
+    selectTeams () {
+      if (this.awaySelected !== null && this.homeSelected !== null) {
+        // AXIOS CALL TO CREATE MATCHUP BASED ON SELECTED TEAMS
+        // IN .THEN() CLEAR OUT THE HOME AND AWAY SELECTED VALUES
+        this.showModal = false
+      }
     }
   }
 }
