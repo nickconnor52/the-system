@@ -1,13 +1,15 @@
 <template>
   <div class="container" id="matchups">
     <h1>
-        Matchups -- Week: {{ matchups[0].week }}
+        Matchups -- Week: 0
     </h1>
     <div class="row" v-if="teams">
       <div class="col-md-12 card" style="width: 18rem;">
         <div class="card-body container-fluid">
           <div class="row justify-content-md-center">
-            <button>Add Matchup</button>
+            <button type="button" class="btn btn-primary" @click="showModal = true">
+              Add Matchup
+            </button>
           </div>
           <ul v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id">
             <matchup :matchup="thisMatchup"></matchup>
@@ -15,6 +17,34 @@
         </div>
       </div>
     </div>
+
+  <div v-if="showModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" @click="showModal = false">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Add a matchup:</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+
+        </div>
+      </div>
+    </transition>
+  </div>
   </div>
 </template>
 <script>
@@ -29,7 +59,8 @@ export default {
   data () {
     return {
       teams: null,
-      matchups: null
+      matchups: null,
+      showModal: false
     }
   },
   created () {
@@ -73,5 +104,22 @@ img {
 ul {
   margin-left: 0;
   padding-left: 0;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
 }
 </style>
