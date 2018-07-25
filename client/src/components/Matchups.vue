@@ -33,6 +33,10 @@
               <div class="modal-body container">
                 <div class="row">
                   <p class="col-md-4">Add a matchup:</p>
+                  <multiselect
+                    v-model="selected"
+                    :options="options">
+                  </multiselect>
                 </div>
               </div>
               <div class="modal-footer">
@@ -50,17 +54,21 @@
 <script>
 import axios from 'axios'
 import Matchup from './Matchup'
+import { Multiselect } from 'vue-multiselect'
 
 export default {
   name: 'matchups',
   components: {
-    'matchup': Matchup
+    'matchup': Matchup,
+    'multiselect': Multiselect
   },
   data () {
     return {
       teams: null,
       matchups: null,
-      showModal: false
+      showModal: false,
+      selected: null,
+      options: ['list', 'of', 'options']
     }
   },
   created () {
@@ -101,7 +109,7 @@ img {
   height: 80px;
 }
 
-ul {
+ul matchup {
   margin-left: 0;
   padding-left: 0;
 }
@@ -123,3 +131,5 @@ ul {
   vertical-align: middle;
 }
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
