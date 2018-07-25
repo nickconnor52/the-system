@@ -154,6 +154,17 @@ ul matchup {
   display: table-cell;
   vertical-align: middle;
 }
+
+.btn-primary {
+  background-color: #ff5f5f;
+  border-color: #ff5f5f;
+  
+}
+
+.btn-primary:hover {
+  background-color: #9e253196;
+  border-color: #9e253196;
+}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
