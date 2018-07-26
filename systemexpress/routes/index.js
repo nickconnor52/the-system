@@ -43,6 +43,11 @@ router.get('/matchups', function(req, res, next) {
   }).populate('homeTeam awayTeam')
 });
 
+router.post('/matchups', function(req, res, next) {
+  console.log(req)
+  res.send('hi')
+})
+
 
 
 module.exports = router;
