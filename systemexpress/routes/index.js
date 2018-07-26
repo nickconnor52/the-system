@@ -6,12 +6,14 @@ var Team = require("../models/team");
 var Stat = require("../models/stat");
 var Matchup = require("../models/matchup");
 
-// GET home page
+// ------ EXPRESS VIEWS ------
+// ---- HOME PAGE  ----
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// GET teams page
+// ------ API CALLS -------
+// ---- TEAMS ----
 router.get('/teams', function(req, res, next) {
   Team.find({}, {}, function (error, teams) {
     if (error) { console.error(error); }
@@ -21,7 +23,7 @@ router.get('/teams', function(req, res, next) {
   })
 });
 
-// GET Stats for the week
+// ---- WEEKLY STATS ----
 router.get('/stats', function(req, res, next) {
   Stat.find({}, {}, function (error, stats) {
     if (error) { console.error(error); }
@@ -31,32 +33,32 @@ router.get('/stats', function(req, res, next) {
   })
 });
 
+// ---- MATCHUPS ----
 router.get('/matchups', function(req, res, next) {
+  findAllMatchups(res);
+});
+
+router.post('/matchups', function(req, res, next) {
+  let matchup = new Matchup({
+    week: '0',  // TODO: Get this from the frontend
+    season: '2018',
+    homeTeam: req.body.homeTeam._id,
+    awayTeam: req.body.awayTeam._id,
+    vegasSpread: '-1.5',
+    systemSpread: '4.5'
+  })
+  matchup.save(function() {
+    findAllMatchups(res)
+  })
+})
+
+let findAllMatchups = (res) => {
   Matchup.find({}, {}, function (error, matchups) {
     if (error) { console.error(error); }
-    matchups.forEach(matchup => {
-      matchup.populate('homeTeam')
-    })
     res.send({
       matchups: matchups
     })
   }).populate('homeTeam awayTeam')
-});
-
-router.post('/matchups', function(req, res, next) {
-  console.log(req)
-  res.send('hi')
-})
-
-
+}
 
 module.exports = router;
-// OLD DB CONNECTION USING MONK
-// FOR REFERENCE
-  // var db = req.db;
-  // var collection = db.get('teams');
-  // collection.find({}, {}, function(e,docs){
-  //   res.send({
-  //     "teams" : docs
-  //   });
-  // });

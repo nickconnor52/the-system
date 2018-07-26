@@ -126,7 +126,9 @@ export default {
           data: payload
         })
           .then(response => {
-            console.log(response)
+            this.matchups = response.data['matchups']
+            this.homeSelected = null
+            this.awaySelected = null
           })
           .catch(response => {
             console.log(response)
