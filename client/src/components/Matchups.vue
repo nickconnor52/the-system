@@ -116,8 +116,21 @@ export default {
     },
     selectTeams () {
       if (this.awaySelected !== null && this.homeSelected !== null) {
-        // AXIOS CALL TO CREATE MATCHUP BASED ON SELECTED TEAMS
-        // IN .THEN() CLEAR OUT THE HOME AND AWAY SELECTED VALUES
+        let payload = {
+          awayTeam: this.teams.filter(team => team.name === this.awaySelected)[0],
+          homeTeam: this.teams.filter(team => team.name === this.homeSelected)[0]
+        }
+        axios({
+          url: 'http://localhost:3000/matchups',
+          method: 'POST',
+          data: payload
+        })
+          .then(response => {
+            console.log(response)
+          })
+          .catch(response => {
+            console.log(response)
+          })
         this.showModal = false
       }
     }
