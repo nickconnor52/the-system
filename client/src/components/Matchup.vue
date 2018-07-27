@@ -26,9 +26,9 @@ export default {
   ],
   methods: {
     getSrc (name) {
-      // var images = require.context('../assets/', false, /\.png$/)
-      // return images('./' + team['name'].toLowerCase() + '.png')
-      return '../../static/img/logos/' + name + '.png'
+      var images = require.context('../../static/img/logos/', false, /\.png$/)
+      return images('./' + name.toLowerCase() + '.png')
+      // return '../../static/img/logos/' + name + '.png'
     }
   }
 }
