@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = mongoose.Types.ObjectId; 
 
 var StatSchema = new Schema({
-  team: Schema.Types.ObjectId,
+  team: { type: Schema.Types.ObjectId, ref: 'Team' },
   week: String,
   offLOSDrive: String,
   defLOSDrive: String,
@@ -24,8 +24,6 @@ var StatSchema = new Schema({
 
 
 StatSchema.statics.generateSpread = function (homeTeamId, awayTeamId, weekNumber) {
-  console.log('_id --> ', typeof homeTeamId)
-  console.log('week --> ', weekNumber)
   var homeTeamStats = null
   var homeId = new ObjectId(homeTeamId.toString())
   Stat.findOne({ 'team': homeId }, {}, function(err, obj) {
