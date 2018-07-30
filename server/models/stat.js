@@ -23,14 +23,21 @@ var StatSchema = new Schema({
 });
 
 
-StatSchema.statics.generateSpread = function (homeTeamId, awayTeamId, weekNumber) {
+StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, weekNumber) {
+  // Home Team
   var homeTeamStats = null
-  var homeId = new ObjectId(homeTeamId.toString())
-  Stat.findOne({ 'team': homeId }, {}, function(err, obj) {
-    homeTeamStats = obj
-  })
+  homeTeamStats = await findTeamStatsByWeekAndId(homeTeamId, weekNumber)
+
+  // Away Team
+  var awayTeamStats = null
+  awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)
+
   return '-6.9'
-// let awayTeamStats = Stat.find({ team: awayTeamId, week: weekNumber })
+}
+
+var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
+  var teamObjId = new ObjectId(teamId.toString())
+  return Stat.findOne({ 'team': teamObjId, 'week': weekNumber }, {}, {}).exec()
 }
 
 var Stat = mongoose.model("Stat", StatSchema);
