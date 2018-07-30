@@ -3,12 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var globals = require('./private/globals');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var mongoose = require('mongoose');
-var db =  mongoose.connect('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb');
+var userpass = globals.userpass
+var db =  mongoose.connect('mongodb://' + userpass + '@ds137611.mlab.com:37611/systemdb');
 
 const cors = require('cors')
 
