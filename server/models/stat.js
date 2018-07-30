@@ -21,5 +21,12 @@ var StatSchema = new Schema({
   defPtsGame: String
 });
 
+statSchema.methods.generateSpread = function (homeTeamId, awayTeamId, weekNumber) {
+  let homeTeamStats = Stat.find({ team: homeTeamId, week: weekNumber })
+  let awayTeamStats = Stat.find({ team: awayTeamId, week: weekNumber })
+
+  return homeTeamStats
+}
+
 var Stat = mongoose.model("Stat", StatSchema);
 module.exports = Stat;

@@ -34,8 +34,8 @@ offTeams = offJson['Team']
 
 finalJson = {}
 
-# ADD Week Info
-thisWeek = weeks_collection.find_one({'number': week, 'season': season})
+# ADD Week Info --- Keeping if we switch week back to a model system
+# thisWeek = weeks_collection.find_one({'number': week, 'season': season})
 
 # DRIVE pts/rz
 for num, team in driveTeams.items():
@@ -43,7 +43,7 @@ for num, team in driveTeams.items():
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
             'team': thisTeam['_id'],
-            'week': thisWeek['_id'],
+            'week': week,
             'offLOSDrive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
             'defLOSDrive': driveJson['DEF.LOS/Dr'][num].split(' ')[0],
         }

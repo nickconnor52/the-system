@@ -45,7 +45,7 @@ router.post('/matchups', function(req, res, next) {
     homeTeam: req.body.homeTeam._id,
     awayTeam: req.body.awayTeam._id,
     vegasSpread: '-1.5',
-    systemSpread: '4.5'
+    systemSpread: stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
   })
   matchup.save(function() {
     findAllMatchups(res)
