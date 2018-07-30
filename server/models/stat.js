@@ -32,7 +32,45 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   var awayTeamStats = null
   awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)
 
+  // Calculated Statistics
+  homeTeamStats.calculatedProperties = generateRawCalculatedProperties(homeTeamStats, awayTeamStats)
+  awayTeamStats.calculatedProperties = generateRawCalculatedProperties(awayTeamStats, homeTeamStats)
+
   return '-6.9'
+}
+
+var applyPointAdjustments = () => {
+  // Apply logic for Blue Section to adjust spread
+}
+
+var generateRawCalculatedProperties = (team, opponent) => {
+  var calculatedProperties = {}
+
+  var pointsPerYard = 0.06468441
+
+  calculatedProperties.losPerDrive = offDefStatAverage(team.offLOSDrive, opponent.defLOSDrive)
+  calculatedProperties.thirdDownPct = offDefStatAverage(team.off3rdPct, opponent.def3rdPct)
+
+  calculatedProperties.giveTakePerGame = parseInt(team.giveTakeDiff) / 9;
+
+  calculatedProperties.rzaPerGame = offDefStatAverage(team.offRZAGame, opponent.defRZAGame)
+  calculatedProperties.ptsPerRZA = offDefStatAverage(team.offPtsRz, opponent.defPtsRz)
+  calculatedProperties.rzaPts = calculatedProperties.rzaPerGame * calculatedProperties.ptsPerRZA
+
+  calculatedProperties.passYdsPerGame = offDefStatAverage(team.offPassYdsGame, opponent.defPassYdsGame)
+  calculatedProperties.rushYdsPerGame = offDefStatAverage(team.offRushYdsGame, opponent.defRushYdsGame)
+  calculatedProperties.totalYdsPerGame = calculatedProperties.passYdsPerGame + calculatedProperties.rushYdsPerGame
+
+  calculatedProperties.pointsFromYards = calculatedProperties.totalYdsPerGame * pointsPerYard
+  calculatedProperties.pointsPerGame = offDefStatAverage(team.offPtsGame, opponent.defPtsGame)
+
+  calculatedProperties.adjustedPointsPerGame = (calculatedProperties.pointsFromYards + calculatedProperties.pointsPerGame) / 2
+  
+  return calculatedProperties
+}
+
+var offDefStatAverage = (teamStat, opponentStat) => {
+  return (parseFloat(teamStat) + parseFloat(opponentStat)) / 2;
 }
 
 var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
