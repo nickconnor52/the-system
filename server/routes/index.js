@@ -40,6 +40,7 @@ router.get('/matchups', function(req, res, next) {
 
 router.post('/matchups', function(req, res, next) {
   try {
+    console.log(req.body.homeTeam)
     let systemSpread = Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
     var matchup = new Matchup({
       week: '0',  // TODO: Get this from the frontend
