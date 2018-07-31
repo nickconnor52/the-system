@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var mongoose = require("mongoose");
+var ObjectId = mongoose.Types.ObjectId; 
+
 // Models
 var Team = require("../models/team");
 var Stat = require("../models/stat");
@@ -58,6 +61,14 @@ router.post('/matchups', function(req, res, next) {
     .catch(error => {
       console.log(error)
     })
+  })
+
+  router.delete('/matchups' + '/:id', function(req, res, next) {
+    var matchupId = new ObjectId(req.params.id)
+    Matchup.findByIdAndDelete(matchupId).exec().then(response => {
+      findAllMatchups(res)
+    })
+    
   })
   
 let findAllMatchups = (res) => {

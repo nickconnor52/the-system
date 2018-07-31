@@ -1,8 +1,9 @@
 <template>
 <div class="card">
   <div class="card-header">
-    <ul class="nav nav-pills card-header-pills justify-content-md-center">
+    <ul class="nav nav-pills card-header-pills d-flex justify-content-md-center">
         <a class="nav-link text-dark" href="#">View Matchup Details</a>
+        <span class="nav-link" @click="deleteMatchup()">Trash</span>
     </ul>
   </div>
   <div class="row justify-content-md-center card-body">
@@ -27,6 +28,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'matchup',
   props: [
@@ -43,6 +46,18 @@ export default {
       var images = require.context('../../static/img/logos/', false, /\.png$/)
       return images('./' + name.toLowerCase() + '.png')
       // return '../../static/img/logos/' + name + '.png'
+    },
+    deleteMatchup () {
+      axios({
+        url: 'http://localhost:3000/matchups/' + this.matchup._id,
+        method: 'DELETE'
+      }).then(response => {
+        this.$parent.$emit('deletedMatchup', response)
+      }
+      )
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

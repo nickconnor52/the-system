@@ -82,7 +82,7 @@ export default {
   data () {
     return {
       teams: null,
-      matchups: null,
+      matchups: [],
       showModal: false,
       homeSelected: null,
       awaySelected: null
@@ -96,6 +96,9 @@ export default {
   created () {
     this.fetchTeams()
     this.fetchMatchups()
+    this.$on('deletedMatchup', (response) => {
+      this.matchups = response.data['matchups']
+    })
   },
   methods: {
     fetchTeams () {
