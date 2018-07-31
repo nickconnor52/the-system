@@ -27,7 +27,7 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   // Home Team
   var homeTeamStats = null
   homeTeamStats = await findTeamStatsByWeekAndId(homeTeamId, weekNumber)
-
+  
   // Away Team
   var awayTeamStats = null
   awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)
@@ -36,20 +36,9 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   homeTeamStats.calculatedProperties = generateRawCalculatedProperties(homeTeamStats, awayTeamStats)
   awayTeamStats.calculatedProperties = generateRawCalculatedProperties(awayTeamStats, homeTeamStats)
 
-  var teamAdjustments = applyPointAdjustments(homeTeamStats.calculatedProperties, awayTeamStats.calculatedProperties)
-  homeTeamStats.calculatedProperties.calculatedPoints = teamAdjustments.homeAdjust
-  awayTeamStats.calculatedProperties.calculatedPoints = teamAdjustments.awayAdjust
-
-  var systemSpread = generateFinalSpread(homeTeamStats.calculatedProperties, awayTeamStats.calculatedProperties)
-
+  var systemSpread = applyPointAdjustments(homeTeamStats.calculatedProperties, awayTeamStats.calculatedProperties)
+  
   return systemSpread
-}
-
-var generateFinalSpread = (homeTeam, awayTeam) => {
-  var homeFinalScore = homeTeam.calculatedPoints + homeTeam.adjustedPointsPerGame
-  var awayFinalScore = awayTeam.calculatedPoints + awayTeam.adjustedPointsPerGame
-
-  return homeFinalScore - awayFinalScore
 }
 
 var applyPointAdjustments = (homeTeam, awayTeam) => {
@@ -95,14 +84,23 @@ var applyPointAdjustments = (homeTeam, awayTeam) => {
     awayWeightedTotal += awayTeam.rzaPts - homeTeam.rzaPts
   }
 
+  var homePPGAdjust = 0
+  var awayPPGAdjust = 0
+
   // PPG Difference
-  if (homeTeam.pointsFromYards > awayTeam.pointsFromYards) {
-    homeWeightedTotal += homeTeam.pointsFromYards - awayTeam.pointsFromYards
-  } else if (awayTeam.pointsFromYards > homeTeam.pointsFromYards) {
-    awayWeightedTotal += awayTeam.pointsFromYards - homeTeam.pointsFromYards
+  if (homeTeam.adjustedPointsPerGame > awayTeam.adjustedPointsPerGame) {
+    homePPGAdjust = homeTeam.adjustedPointsPerGame - awayTeam.adjustedPointsPerGame
+    homeWeightedTotal += homePPGAdjust
+  } else if (awayTeam.adjustedPointsPerGame > homeTeam.adjustedPointsPerGame) {
+    awayPPGAdjust = awayTeam.adjustedPointsPerGame - homeTeam.adjustedPointsPerGame
+    awayWeightedTotal += awayPPGAdjust
   }
 
-  return { homeAdjust: homeWeightedTotal, awayAdjust: awayWeightedTotal }
+  // ADD PPG ADJUST TO SPREAD CALC
+  var homeFinalScore = (homeWeightedTotal + homeTeam.adjustedPointsPerGame) - homePPGAdjust
+  var awayFinalScore = (awayWeightedTotal + awayTeam.adjustedPointsPerGame) - awayPPGAdjust
+
+  return ( homeFinalScore - awayFinalScore ) * -1
 
 }
 
