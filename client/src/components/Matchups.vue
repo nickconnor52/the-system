@@ -142,7 +142,6 @@ export default {
 <style>
 .logo {
   vertical-align: middle;
-  border: solid black;
 }
 img {
   height: 80px;

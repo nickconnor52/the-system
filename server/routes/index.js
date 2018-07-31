@@ -39,22 +39,24 @@ router.get('/matchups', function(req, res, next) {
 });
 
 router.post('/matchups', function(req, res, next) {
-  try {
+
     // TODO: Update Year to not be hardcoded
-    let systemSpread = Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
-    var matchup = new Matchup({
-      week: '0',  // TODO: Get this from the frontend
-      season: '2018',
-      homeTeam: req.body.homeTeam._id,
-      awayTeam: req.body.awayTeam._id,
-      vegasSpread: '-1.5',
-      systemSpread: '11'
+    Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
+    .then((systemSpread) => {
+      var matchup = new Matchup({
+        week: '0',  // TODO: Get this from the frontend
+        season: '2018',
+        homeTeam: req.body.homeTeam._id,
+        awayTeam: req.body.awayTeam._id,
+        vegasSpread: '-1.5',
+        systemSpread: systemSpread
+      })
+      matchup.save(function() {
+        findAllMatchups(res)
+      })
     })
-  } catch (error) {
-    console.log(error)
-  }
-    matchup.save(function() {
-      findAllMatchups(res)
+    .catch(error => {
+      console.log(error)
     })
   })
   

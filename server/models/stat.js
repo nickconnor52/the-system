@@ -36,11 +36,74 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   homeTeamStats.calculatedProperties = generateRawCalculatedProperties(homeTeamStats, awayTeamStats)
   awayTeamStats.calculatedProperties = generateRawCalculatedProperties(awayTeamStats, homeTeamStats)
 
-  return '-6.9'
+  var teamAdjustments = applyPointAdjustments(homeTeamStats.calculatedProperties, awayTeamStats.calculatedProperties)
+  homeTeamStats.calculatedProperties.calculatedPoints = teamAdjustments.homeAdjust
+  awayTeamStats.calculatedProperties.calculatedPoints = teamAdjustments.awayAdjust
+
+  var systemSpread = generateFinalSpread(homeTeamStats.calculatedProperties, awayTeamStats.calculatedProperties)
+
+  return systemSpread
 }
 
-var applyPointAdjustments = () => {
-  // Apply logic for Blue Section to adjust spread
+var generateFinalSpread = (homeTeam, awayTeam) => {
+  var homeFinalScore = homeTeam.calculatedPoints + homeTeam.adjustedPointsPerGame
+  var awayFinalScore = awayTeam.calculatedPoints + awayTeam.adjustedPointsPerGame
+
+  return homeFinalScore - awayFinalScore
+}
+
+var applyPointAdjustments = (homeTeam, awayTeam) => {
+  var homeWeightedTotal = 0
+  var awayWeightedTotal = 0
+  
+  // Points from Starting Position
+  if (homeTeam.losPerDrive > 30) {
+    homeWeightedTotal += 2
+  }
+
+  if (awayTeam.losPerDrive > 30) {
+    awayWeightedTotal += 2
+  }
+
+  // Turnover Diff Adjust
+  var giveTakeAdjust = 0
+  if (homeTeam.giveTakePerGame > awayTeam.giveTakePerGame) {
+    giveTakeAdjust = (homeTeam.giveTakePerGame - awayTeam.giveTakePerGame) * 3
+    homeWeightedTotal += giveTakeAdjust
+  } else {
+    giveTakeAdjust = (awayTeam.giveTakePerGame - homeTeam.giveTakePerGame) * 3
+    awayWeightedTotal += giveTakeAdjust
+  }
+
+  // Points from 3rd Down
+  var homeThirdAdjust = homeTeam.thirdDownPct - awayTeam.thirdDownPct
+  var awayThirdAdjust = homeThirdAdjust * -1
+  if (homeThirdAdjust >= 7) {
+    homeWeightedTotal += 1
+  } else if (homeThirdAdjust >= 4.5) {
+    homeWeightedTotal += .5
+  } else if (awayThirdAdjust >= 7) {
+    awayWeightedTotal += 1
+  } else if (awayThirdAdjust >= 4.5) {
+    awayWeightedTotal += .5
+  }
+
+  // RZ Difference
+  if (homeTeam.rzaPts > awayTeam.rzaPts) {
+    homeWeightedTotal += homeTeam.rzaPts - awayTeam.rzaPts
+  } else if (awayTeam.rzaPts > homeTeam.rzaPts) {
+    awayWeightedTotal += awayTeam.rzaPts - homeTeam.rzaPts
+  }
+
+  // PPG Difference
+  if (homeTeam.pointsFromYards > awayTeam.pointsFromYards) {
+    homeWeightedTotal += homeTeam.pointsFromYards - awayTeam.pointsFromYards
+  } else if (awayTeam.pointsFromYards > homeTeam.pointsFromYards) {
+    awayWeightedTotal += awayTeam.pointsFromYards - homeTeam.pointsFromYards
+  }
+
+  return { homeAdjust: homeWeightedTotal, awayAdjust: awayWeightedTotal }
+
 }
 
 var generateRawCalculatedProperties = (team, opponent) => {
