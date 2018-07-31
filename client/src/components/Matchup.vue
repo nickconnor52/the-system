@@ -1,5 +1,10 @@
 <template>
 <div class="card">
+  <div class="card-header">
+    <ul class="nav nav-pills card-header-pills justify-content-md-center">
+        <a class="nav-link text-dark" href="#">View Matchup Details</a>
+    </ul>
+  </div>
   <div class="row justify-content-md-center card-body">
     <div class="col-md-4">
       <div class="card-body logo" :class="{ 'bg-success': this.systemSpread > 0 }">
@@ -12,7 +17,7 @@
       <h5 class="align-end auto-margin">TheSystem: {{ this.systemSpread }}</h5>
     </div>
     <div class="col-md-4">
-      <div class="card-body logo" :class="{ success: this.systemSpread < 0 }">
+      <div class="card-body logo" :class="{ 'bg-success': this.systemSpread < 0 }">
       <img :src="getSrc(matchup.homeTeam['name'])" :alt="matchup.homeTeam['name']"/>
       <h4 class="text-dark">{{matchup.homeTeam['location'] }} {{ matchup.homeTeam['name'] }}</h4>
       </div>
@@ -53,6 +58,10 @@ export default {
 
 .bg-success {
   background-color: rgba(0, 166, 105, .3) !important;
+}
+
+.card {
+  margin-bottom: 3em;
 }
 
 </style>

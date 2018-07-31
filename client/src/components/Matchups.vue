@@ -11,7 +11,12 @@
               Add Matchup
             </button>
           </div>
-          <ul v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id">
+          <div v-if="matchups.length === 0" class="card">
+              <div class="card-header">
+                <h4 style="margin: auto">There are no matchups for this week</h4>
+              </div>
+          </div>
+          <ul v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id" style="padding-left: 0">
             <matchup :matchup="thisMatchup"></matchup>
           </ul>
         </div>
