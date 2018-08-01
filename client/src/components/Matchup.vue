@@ -3,6 +3,7 @@
   <div class="card-header">
     <ul class="nav nav-pills card-header-pills d-flex justify-content-md-center">
         <a class="nav-link text-dark" href="#">View Matchup Details</a>
+        <span class="nav-link" @click="updateLine()">Update Spinner</span>
         <span class="nav-link" @click="deleteMatchup()">Trash</span>
     </ul>
   </div>
@@ -53,6 +54,20 @@ export default {
         method: 'DELETE'
       }).then(response => {
         this.$parent.$emit('deletedMatchup', response)
+      }
+      )
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    updateLine () {
+      axios({
+        url: 'http://localhost:3000/matchups/updateLine',
+        method: 'POST',
+        data: this.matchup
+      }).then(response => {
+        this.matchup.systemSpread = response.data.systemSpread
+        this.$parent.$emit('updatedMatchup', response)
       }
       )
         .catch(error => {

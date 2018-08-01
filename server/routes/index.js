@@ -43,33 +43,60 @@ router.get('/matchups', function(req, res, next) {
 
 router.post('/matchups', function(req, res, next) {
 
-    // TODO: Update Year to not be hardcoded
-    Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
-    .then((systemSpread) => {
-      var matchup = new Matchup({
-        week: '0',  // TODO: Get this from the frontend
-        season: '2018',
-        homeTeam: req.body.homeTeam._id,
-        awayTeam: req.body.awayTeam._id,
-        vegasSpread: '-1.5',
-        systemSpread: systemSpread
-      })
-      matchup.save(function() {
-        findAllMatchups(res)
-      })
+  // TODO: Update Year to not be hardcoded
+  Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
+  .then((systemSpread) => {
+    var matchup = new Matchup({
+      week: '0',  // TODO: Get this from the frontend
+      season: '2018',
+      homeTeam: req.body.homeTeam._id,
+      awayTeam: req.body.awayTeam._id,
+      vegasSpread: '-1.5',
+      systemSpread: systemSpread
     })
-    .catch(error => {
-      console.log(error)
-    })
-  })
-
-  router.delete('/matchups' + '/:id', function(req, res, next) {
-    var matchupId = new ObjectId(req.params.id)
-    Matchup.findByIdAndDelete(matchupId).exec().then(response => {
+    matchup.save(function() {
       findAllMatchups(res)
     })
-    
   })
+  .catch(error => {
+    console.log(error)
+  })
+})
+
+router.post('/matchups/updateLine', function(req, res, next) {
+  var matchup = req.body
+  console.log(matchup)
+  Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
+  .then((systemSpread) => {
+    Matchup.findById(new ObjectId(matchup._id), function (err, matchup) {
+      matchup.systemSpread = systemSpread
+      matchup.save((err, updatedMatch) => {
+        res.send(updatedMatch)
+      })
+    })
+  })
+})
+
+router.post('/matchups/updateAllLines', function(req, res, next) {
+  var matchups = req.body.matchups
+  matchups.forEach(matchup => {
+    Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
+    .then((systemSpread) => {
+      Matchup.findById(new ObjectId(matchup._id), function (err, matchup) {
+        matchup.systemSpread = systemSpread
+        matchup.save().exec()
+      })
+    })
+  })
+})
+
+router.delete('/matchups' + '/:id', function(req, res, next) {
+  var matchupId = new ObjectId(req.params.id)
+  Matchup.findByIdAndDelete(matchupId).exec().then(response => {
+    findAllMatchups(res)
+  })
+  
+})
   
 let findAllMatchups = (res) => {
   Matchup.find({}, {}, function (error, matchups) {
