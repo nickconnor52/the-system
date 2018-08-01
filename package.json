@@ -1,5 +1,5 @@
 {
-  "name": "systemtest1",
+  "name": "systemserver",
   "version": "0.0.0",
   "private": true,
   "scripts": {
