@@ -11,13 +11,13 @@ var Matchup = require("../models/matchup");
 
 // ------ EXPRESS VIEWS ------
 // ---- HOME PAGE  ----
-router.get('/', function(req, res, next) {
+router.get('/api', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 // ------ API CALLS -------
 // ---- TEAMS ----
-router.get('/teams', function(req, res, next) {
+router.get('/api/teams', function(req, res, next) {
   Team.find({}, {}, function (error, teams) {
     if (error) { console.error(error); }
     res.send({
@@ -27,7 +27,7 @@ router.get('/teams', function(req, res, next) {
 });
 
 // ---- WEEKLY STATS ----
-router.get('/stats', function(req, res, next) {
+router.get('/api/stats', function(req, res, next) {
   Stat.find({}, {}, function (error, stats) {
     if (error) { console.error(error); }
     res.send({
@@ -37,11 +37,11 @@ router.get('/stats', function(req, res, next) {
 });
 
 // ---- MATCHUPS ----
-router.get('/matchups', function(req, res, next) {
+router.get('/api/matchups', function(req, res, next) {
   findAllMatchups(res);
 });
 
-router.post('/matchups', function(req, res, next) {
+router.post('/api/matchups', function(req, res, next) {
 
   // TODO: Update Year to not be hardcoded
   Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
@@ -63,7 +63,7 @@ router.post('/matchups', function(req, res, next) {
   })
 })
 
-router.post('/matchups/updateLine', function(req, res, next) {
+router.post('/api/matchups/updateLine', function(req, res, next) {
   var matchup = req.body
   console.log(matchup)
   Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
@@ -77,7 +77,7 @@ router.post('/matchups/updateLine', function(req, res, next) {
   })
 })
 
-router.post('/matchups/updateAllLines', function(req, res, next) {
+router.post('/api/matchups/updateAllLines', function(req, res, next) {
   var matchups = req.body.matchups
   matchups.forEach(matchup => {
     Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
@@ -90,7 +90,7 @@ router.post('/matchups/updateAllLines', function(req, res, next) {
   })
 })
 
-router.delete('/matchups' + '/:id', function(req, res, next) {
+router.delete('/api/matchups' + '/:id', function(req, res, next) {
   var matchupId = new ObjectId(req.params.id)
   Matchup.findByIdAndDelete(matchupId).exec().then(response => {
     findAllMatchups(res)

@@ -103,7 +103,7 @@ export default {
   methods: {
     fetchTeams () {
       axios({
-        url: 'http://localhost:3000/teams',
+        url: 'http://localhost:3000/api/teams',
         method: 'GET'
       })
         .then(response => {
@@ -112,7 +112,7 @@ export default {
     },
     fetchMatchups () {
       axios({
-        url: 'http://localhost:3000/matchups',
+        url: 'http://localhost:3000/api/matchups',
         method: 'GET'
       })
         .then(response => {
@@ -129,7 +129,7 @@ export default {
           homeTeam: this.teams.filter(team => team.name === this.homeSelected)[0]
         }
         axios({
-          url: 'http://localhost:3000/matchups',
+          url: 'http://localhost:3000/api/matchups',
           method: 'POST',
           data: payload
         })
