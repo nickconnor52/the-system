@@ -1,0 +1,1 @@
+client: node build/dev-server.js
