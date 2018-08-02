@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import json
 from pymongo import MongoClient
@@ -5,6 +6,8 @@ from pymongo import MongoClient
 # TODO - add week dynamically for automation
 week = '0'
 season = '0'
+
+db_auth = os.environ['DB_AUTH']
 
 # Give/Take Data
 tablesGive = pd.read_html("http://www.espn.com/nfl/statistics/team/_/stat/givetake", header=1)
@@ -28,7 +31,7 @@ defYdsData = json.loads(tablesDefYds[0].to_json())
 
 # Connect to DB
 
-client = MongoClient('mongodb://nickconnor52:Cardinals77@ds137611.mlab.com:37611/systemdb')
+client = MongoClient('mongodb://' + db_auth + '@ds137611.mlab.com:37611/systemdb')
 db = client['systemdb']
 stats_collection = db['stats']
 weeks_collection = db['weeks']
