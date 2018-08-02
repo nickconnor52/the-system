@@ -6,10 +6,10 @@
           <a class="nav-link text-dark" href="#">View Matchup Details</a>
         </li>
         <li>
-          <i id="override-icon" class="nav-link fas fa-sync-alt pointer align-center" @click="updateLine()" />
+          <i class="nav-link fas fa-sync-alt pointer align-center" @click="updateLine()" />
         </li>
         <li>
-          <i id="override-icon" class="nav-link far fa-trash-alt pointer align-center" @click="deleteMatchup()" />
+          <i class="nav-link far fa-trash-alt pointer align-center" @click="deleteMatchup()" />
         </li>
     </ul>
   </div>
@@ -100,7 +100,7 @@ export default {
   margin-bottom: 3em;
 }
 
-#override-icon i.nav-link {
+#override li i.nav-link {
   margin-bottom: auto;
   margin-top: auto;
 }
