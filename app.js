@@ -4,14 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var globals = require('./private/globals');
-require("dotenv").config()
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var mongoose = require('mongoose');
 // var userpass = globals.userpass
-var db =  mongoose.connect('mongodb://' + (process.env.DB_AUTH || 'userpass') + '@ds137611.mlab.com:37611/systemdb');
+var db =  mongoose.connect('mongodb://' + (process.env.DB_AUTH || '') + '@ds137611.mlab.com:37611/systemdb');
 
 const cors = require('cors')
 
