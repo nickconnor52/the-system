@@ -3,8 +3,8 @@
   <div class="card-header">
     <ul class="nav nav-pills card-header-pills d-flex justify-content-md-center">
         <a class="nav-link text-dark" href="#">View Matchup Details</a>
-        <span class="nav-link" @click="updateLine()">Update Spinner</span>
-        <span class="nav-link" @click="deleteMatchup()">Trash</span>
+        <i class="nav-link fas fa-sync-alt pointer" style="vertical-align: center" @click="updateLine()" />
+        <i class="nav-link far fa-trash-alt pointer" @click="deleteMatchup()" />
     </ul>
   </div>
   <div id="bootstrap-matchup-override" class="row justify-content-md-center card-body">
@@ -93,6 +93,12 @@ export default {
 .card {
   margin-bottom: 3em;
 }
+
+i.nav-link {
+  margin-bottom: auto;
+  margin-top: auto;
+}
+ 
 
 </style>
 

@@ -53,4 +53,8 @@ header span {
   box-sizing: border-box;
   padding-top: 16px;
 }
+
+.pointer {
+  cursor: pointer;
+}
 </style>
