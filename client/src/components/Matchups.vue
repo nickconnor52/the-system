@@ -6,7 +6,7 @@
     <div class="row" v-if="teams">
       <div class="col-md-12 card" style="width: 18rem;">
         <div class="card-body container-fluid">
-          <div class="row justify-content-md-center">
+          <div id="bootstrap-override" class="row justify-content-md-center">
             <button type="button" class="btn btn-primary" style="margin-bottom: 10px" @click="showModal = true">
               Add Matchup
             </button>
@@ -177,13 +177,13 @@ ul matchup {
   vertical-align: middle;
 }
 
-.btn-primary {
+#bootstrap-override .btn-primary {
   background-color: #ff5f5f;
   border-color: #ff5f5f;
   
 }
 
-.btn-primary:hover {
+#bootstrap-override .btn-primary:hover {
   background-color: #9e253196;
   border-color: #9e253196;
 }
