@@ -16,7 +16,7 @@ npm install
 # serve with hot reload at localhost:3000
 npm start
 
-# navigate to the client 
+# navigate to the client directory 
 cd client
 
 # install and run the front end
