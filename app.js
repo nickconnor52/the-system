@@ -4,13 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var globals = require('./private/globals');
+require("dotenv").config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var mongoose = require('mongoose');
 var userpass = globals.userpass
-var db =  mongoose.connect('mongodb://' + userpass + '@ds137611.mlab.com:37611/systemdb');
+var db =  mongoose.connect('mongodb://' + (process.env.DB_AUTH || userpass) + '@ds137611.mlab.com:37611/systemdb');
 
 const cors = require('cors')
 
@@ -34,6 +35,7 @@ app.use(function(req,res,next){
   next();
 });
 
+// Handle static files from Vue
 app.use(express.static(path.join(__dirname, "client", "dist")))
 
 app.use('/', indexRouter);
