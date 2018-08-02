@@ -10,8 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var mongoose = require('mongoose');
-var userpass = globals.userpass
-var db =  mongoose.connect('mongodb://' + (process.env.DB_AUTH || userpass) + '@ds137611.mlab.com:37611/systemdb');
+// var userpass = globals.userpass
+var db =  mongoose.connect('mongodb://' + (process.env.DB_AUTH || 'userpass') + '@ds137611.mlab.com:37611/systemdb');
 
 const cors = require('cors')
 
