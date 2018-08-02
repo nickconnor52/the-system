@@ -12,7 +12,8 @@
         /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
       )
     );
-
+  isLocalhost = false
+  
   window.addEventListener('load', function() {
       if ('serviceWorker' in navigator &&
           (window.location.protocol === 'https:' || isLocalhost)) {
