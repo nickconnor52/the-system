@@ -1,10 +1,16 @@
 <template>
 <div class="card">
   <div class="card-header">
-    <ul class="nav nav-pills card-header-pills d-flex justify-content-md-center">
-        <a class="nav-link text-dark" href="#">View Matchup Details</a>
-        <i class="nav-link fas fa-sync-alt pointer" style="vertical-align: center" @click="updateLine()" />
-        <i class="nav-link far fa-trash-alt pointer" @click="deleteMatchup()" />
+    <ul class="nav nav-pills card-header-pills d-flex justify-content-md-center matchup-header">
+        <li>
+          <a class="nav-link text-dark" href="#">View Matchup Details</a>
+        </li>
+        <li>
+          <i class="nav-link fas fa-sync-alt pointer align-center" @click="updateLine()" />
+        </li>
+        <li>
+          <i class="nav-link far fa-trash-alt pointer align-center" @click="deleteMatchup()" />
+        </li>
     </ul>
   </div>
   <div id="bootstrap-matchup-override" class="row justify-content-md-center card-body">
@@ -99,6 +105,16 @@ i.nav-link {
   margin-top: auto;
 }
  
+ul .matchup-header {
+  display: grid !important;
+  grid-template-columns: 1fr repeat(2, auto) 1fr;  
+  grid-column-gap: 5px;
+  justify-items: center;
+}
+
+li:nth-child(1) { grid-column-start: 2; }
+li:nth-child(2) { margin-left: auto; }
+li:nth-child(3) { margin-left: auto; }
 
 </style>
 
