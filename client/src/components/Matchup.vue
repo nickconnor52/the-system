@@ -7,7 +7,7 @@
         <span class="nav-link" @click="deleteMatchup()">Trash</span>
     </ul>
   </div>
-  <div class="row justify-content-md-center card-body">
+  <div id="bootstrap-matchup-override" class="row justify-content-md-center card-body">
     <div class="col-md-4">
       <div class="card-body logo" :class="{ 'bg-success': this.systemSpread > 0 }">
       <img :src="getSrc(matchup.awayTeam['name'])" :alt="matchup.awayTeam['name']"/>
@@ -86,7 +86,7 @@ export default {
   justify-content: center; /*Aligns horizontally center */
 }
 
-.bg-success {
+#bootstrap-matchup-override .bg-success {
   background-color: rgba(0, 166, 105, .3) !important;
 }
 
