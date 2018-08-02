@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
 var mongoose = require("mongoose");
 var ObjectId = mongoose.Types.ObjectId; 
@@ -106,5 +107,9 @@ let findAllMatchups = (res) => {
     })
   }).populate('homeTeam awayTeam')
 }
+
+router.get("*", (req, res) => {  
+  res.sendFile(path.join(__dirname, "../", "client", "dist", "index.html"));
+});
 
 module.exports = router;
