@@ -56,7 +56,7 @@ export default {
     },
     deleteMatchup () {
       axios({
-        url: 'http://localhost:3000/api/matchups/' + this.matchup._id,
+        url: '/api/matchups/' + this.matchup._id,
         method: 'DELETE'
       }).then(response => {
         this.$parent.$emit('deletedMatchup', response)
@@ -68,7 +68,7 @@ export default {
     },
     updateLine () {
       axios({
-        url: 'http://localhost:3000/api/matchups/updateLine',
+        url: '/api/matchups/updateLine',
         method: 'POST',
         data: this.matchup
       }).then(response => {
