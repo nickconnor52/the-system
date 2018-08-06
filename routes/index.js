@@ -48,7 +48,7 @@ router.post('/api/matchups', function(req, res, next) {
   Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
   .then((systemSpread) => {
     var matchup = new Matchup({
-      week: '0',  // TODO: Get this from the frontend
+      week: '1',  // TODO: Get this from the frontend
       season: '2018',
       homeTeam: req.body.homeTeam._id,
       awayTeam: req.body.awayTeam._id,

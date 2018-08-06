@@ -1,7 +1,7 @@
 <template>
   <div class="container" id="matchups">
     <h1>
-        Matchups -- Week: 0
+        Matchups -- Week: {{activeWeek}}
     </h1>
     <div class="row week-tab">
       <ul class="nav justify-content-center">
@@ -9,8 +9,9 @@
           <small class=" text-strong">Select Week:</small>
         </li>
         <li v-for="(weekNumber, key) in weekCount" :key="key" class="nav-item">
-          <a class="nav-link" @click="selectWeek(weekNumber)">{{weekNumber}}</a>
+          <a class="nav-link" :class="{disabled: isActive(weekNumber)}" href="#" @click="selectWeek(weekNumber)">{{weekNumber}}</a>
         </li>
+        <!-- :class="{active: isActive(weekNumber)}" -->
       </ul>
     </div>
     <br>
@@ -170,6 +171,9 @@ export default {
     },
     selectWeek (weekNumber) {
       this.activeWeek = weekNumber
+    },
+    isActive (weekNumber) {
+      return weekNumber === this.activeWeek
     }
   }
 }
@@ -214,6 +218,7 @@ ul matchup {
   background-color: #9e253196;
   border-color: #9e253196;
 }
+
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
