@@ -3,10 +3,21 @@
     <h1>
         Matchups -- Week: 0
     </h1>
+    <div class="row week-tab">
+      <ul class="nav justify-content-center">
+        <li class="align-middle" style="display: flex; align-items: center;">
+          <small class=" text-strong">Select Week:</small>
+        </li>
+        <li v-for="(weekNumber, key) in weekCount" :key="key" class="nav-item">
+          <a class="nav-link" @click="selectWeek(weekNumber)">{{weekNumber}}</a>
+        </li>
+      </ul>
+    </div>
+    <br>
     <div class="row" v-if="teams">
       <div class="col-md-12 card" style="width: 18rem;">
-        <div class="card-body container-fluid">
-          <div id="bootstrap-override" class="row justify-content-md-center">
+        <div id="bootstrap-override" class="card-body container-fluid">
+          <div class="row justify-content-md-center">
             <button type="button" class="btn btn-primary" style="margin-bottom: 10px" @click="showModal = true">
               Add Matchup
             </button>
@@ -16,7 +27,7 @@
                 <h4 style="margin: auto">There are no matchups for this week</h4>
               </div>
           </div>
-          <ul v-for="thisMatchup in matchups" v-bind:key="thisMatchup.id" style="padding-left: 0">
+          <ul v-for="thisMatchup in weekMatchups" v-bind:key="thisMatchup.id" style="padding-left: 0">
             <matchup :matchup="thisMatchup"></matchup>
           </ul>
         </div>
@@ -83,6 +94,7 @@ export default {
     return {
       teams: null,
       matchups: [],
+      activeWeek: '0',
       showModal: false,
       homeSelected: null,
       awaySelected: null
@@ -91,6 +103,18 @@ export default {
   computed: {
     options () {
       return this.teams.map(team => team.name)
+    },
+    weekCount () {
+      let weeks = []
+      this.matchups.forEach(matchup => {
+        if (!weeks.includes(matchup.week)) {
+          weeks.push(matchup.week)
+        }
+      })
+      return weeks
+    },
+    weekMatchups () {
+      return this.matchups.filter(matchup => matchup.week === this.activeWeek)
     }
   },
   created () {
@@ -143,6 +167,9 @@ export default {
           })
         this.showModal = false
       }
+    },
+    selectWeek (weekNumber) {
+      this.activeWeek = weekNumber
     }
   }
 }
