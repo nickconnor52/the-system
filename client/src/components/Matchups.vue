@@ -11,7 +11,6 @@
         <li v-for="(weekNumber, key) in weekCount" :key="key" class="nav-item">
           <a class="nav-link" :class="{disabled: isActive(weekNumber)}" href="#" @click="selectWeek(weekNumber)">{{weekNumber}}</a>
         </li>
-        <!-- :class="{active: isActive(weekNumber)}" -->
       </ul>
     </div>
     <br>
