@@ -66,6 +66,11 @@
                     :options="options">
                   </multiselect>
                 </div>
+                <br>
+                <div class="row">
+                  <label class="col-md-3 col-form-label" for="line">Spread:</label>
+                  <input type="text" id="line" class="form-control col-md-8" v-model="matchupLine" placeholder="Enter home line" style="margin-left: 15px"/>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
@@ -97,7 +102,8 @@ export default {
       activeWeek: '0',
       showModal: false,
       homeSelected: null,
-      awaySelected: null
+      awaySelected: null,
+      matchupLine: ''
     }
   },
   computed: {
@@ -150,7 +156,8 @@ export default {
       if (this.awaySelected !== null && this.homeSelected !== null) {
         let payload = {
           awayTeam: this.teams.filter(team => team.name === this.awaySelected)[0],
-          homeTeam: this.teams.filter(team => team.name === this.homeSelected)[0]
+          homeTeam: this.teams.filter(team => team.name === this.homeSelected)[0],
+          vegasSpread: this.matchupLine <= 0 ? this.matchupLine : '+' + this.matchupLine
         }
         axios({
           url: '/api/matchups',

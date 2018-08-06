@@ -52,7 +52,7 @@ router.post('/api/matchups', function(req, res, next) {
       season: '2018',
       homeTeam: req.body.homeTeam._id,
       awayTeam: req.body.awayTeam._id,
-      vegasSpread: '-1.5',
+      vegasSpread: req.body.vegasSpread,
       systemSpread: systemSpread
     })
     matchup.save(function() {
