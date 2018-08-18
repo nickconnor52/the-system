@@ -2,8 +2,7 @@
 
 > There's always an edge, we're here to find it.
 
-The goal of The System is to utilize live season stats to try and predict the outcome of each weekly NFL matchup
-and compare that to the experts' picks.
+The goal of The System is to utilize live season stats to try and predict the outcome of each weekly NFL matchup and compare that to the experts' picks.
 
 ### You can find a live version of the site at system-picks.herokuapp.com
 
