@@ -4,7 +4,7 @@
         Matchups -- Week: {{activeWeek}}
     </h1>
     <div class="row justify-content-end">
-      <button type="button" class="btn btn-primary"><i class="fa fa-plus" style="margin-right: 10px"/>Add Week</button>
+      <button type="button" class="btn btn-primary" @click="createNewWeek"><i class="fa fa-plus" style="margin-right: 10px"/>Add Week</button>
     </div>
     <div class="row week-tab">
       <ul class="nav justify-content-center">
@@ -143,6 +143,9 @@ export default {
     })
   },
   methods: {
+    createNewWeek () {
+      this.currentWeek++
+    },
     fetchTeams () {
       axios({
         url: '/api/teams',
