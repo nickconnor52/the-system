@@ -3,6 +3,9 @@
     <h1>
         Matchups -- Week: {{activeWeek}}
     </h1>
+    <div class="row justify-content-end">
+      <button type="button" class="btn btn-primary"><i class="fa fa-plus" style="margin-right: 10px"/>Add Week</button>
+    </div>
     <div class="row week-tab">
       <ul class="nav justify-content-center">
         <li class="align-middle" style="display: flex; align-items: center;">
@@ -16,7 +19,7 @@
     <br>
     <div class="row" v-if="teams">
       <div class="col-md-12 card" style="width: 18rem;">
-        <div id="bootstrap-override" class="card-body container-fluid">
+        <div class="card-body container-fluid">
           <div class="row justify-content-md-center">
             <button type="button" class="btn btn-primary" style="margin-bottom: 10px" @click="showModal = true">
               Add Matchup
@@ -226,13 +229,13 @@ ul matchup {
   vertical-align: middle;
 }
 
-#bootstrap-override .btn-primary {
+#matchups .btn-primary {
   background-color: #ff5f5f;
   border-color: #ff5f5f;
   
 }
 
-#bootstrap-override .btn-primary:hover {
+#matchups .btn-primary:hover {
   background-color: #9e253196;
   border-color: #9e253196;
 }
