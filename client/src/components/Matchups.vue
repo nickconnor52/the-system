@@ -72,9 +72,11 @@
                   <input type="text" id="line" class="form-control col-md-8" v-model="matchupLine" placeholder="Enter home line" style="margin-left: 15px"/>
                 </div>
                 <br>
-                <div class="row">
+                <div class="row form-group">
                   <label class="col-md-3 col-form-label" for="week">Week:</label>
-                  <input type="text" id="week" class="form-control col-md-8" v-model="chosenWeekNumber" placeholder="Week Number" style="margin-left: 15px"/>
+                  <select class="col-md-8 form-control" v-model="chosenWeekNumber" id="week" style="margin-left: 15px">
+                    <option v-for="week in currentWeek + 1" :key="week">{{ week - 1 }}</option>
+                  </select>
                 </div>
               </div>
               <div class="modal-footer">
@@ -109,7 +111,8 @@ export default {
       homeSelected: null,
       awaySelected: null,
       matchupLine: '',
-      chosenWeekNumber: ''
+      chosenWeekNumber: '',
+      currentWeek: 0
     }
   },
   computed: {
