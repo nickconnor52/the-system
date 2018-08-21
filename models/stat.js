@@ -27,7 +27,7 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   // Home Team
   var homeTeamStats = null
   homeTeamStats = await findTeamStatsByWeekAndId(homeTeamId, weekNumber)
-  
+
   // Away Team
   var awayTeamStats = null
   awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)

@@ -71,6 +71,11 @@
                   <label class="col-md-3 col-form-label" for="line">Spread:</label>
                   <input type="text" id="line" class="form-control col-md-8" v-model="matchupLine" placeholder="Enter home line" style="margin-left: 15px"/>
                 </div>
+                <br>
+                <div class="row">
+                  <label class="col-md-3 col-form-label" for="week">Week:</label>
+                  <input type="text" id="week" class="form-control col-md-8" v-model="chosenWeekNumber" placeholder="Week Number" style="margin-left: 15px"/>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
@@ -103,7 +108,8 @@ export default {
       showModal: false,
       homeSelected: null,
       awaySelected: null,
-      matchupLine: ''
+      matchupLine: '',
+      chosenWeekNumber: ''
     }
   },
   computed: {
@@ -157,7 +163,8 @@ export default {
         let payload = {
           awayTeam: this.teams.filter(team => team.name === this.awaySelected)[0],
           homeTeam: this.teams.filter(team => team.name === this.homeSelected)[0],
-          vegasSpread: this.matchupLine <= 0 ? this.matchupLine : '+' + this.matchupLine
+          vegasSpread: this.matchupLine <= 0 ? this.matchupLine : '+' + this.matchupLine,
+          week: this.chosenWeekNumber
         }
         axios({
           url: '/api/matchups',
@@ -168,6 +175,8 @@ export default {
             this.matchups = response.data['matchups']
             this.homeSelected = null
             this.awaySelected = null
+            this.chosenWeekNumber = ''
+            this.matchupLine = ''
           })
           .catch(response => {
             console.log(response)

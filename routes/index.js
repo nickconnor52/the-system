@@ -43,12 +43,12 @@ router.get('/api/matchups', function(req, res, next) {
 });
 
 router.post('/api/matchups', function(req, res, next) {
-
+  let week = req.body.week
   // TODO: Update Year to not be hardcoded
-  Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, '0')
+  Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, week)
   .then((systemSpread) => {
     var matchup = new Matchup({
-      week: '0',  // TODO: Get this from the frontend
+      week: week,  // TODO: Get this from the frontend
       season: '2018',
       homeTeam: req.body.homeTeam._id,
       awayTeam: req.body.awayTeam._id,
@@ -66,7 +66,7 @@ router.post('/api/matchups', function(req, res, next) {
 
 router.post('/api/matchups/updateLine', function(req, res, next) {
   var matchup = req.body
-  Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
+  Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, matchup.week)
   .then((systemSpread) => {
     Matchup.findById(new ObjectId(matchup._id), function (err, matchup) {
       matchup.systemSpread = systemSpread
