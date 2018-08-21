@@ -66,7 +66,6 @@ router.post('/api/matchups', function(req, res, next) {
 
 router.post('/api/matchups/updateLine', function(req, res, next) {
   var matchup = req.body
-  console.log(matchup)
   Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
   .then((systemSpread) => {
     Matchup.findById(new ObjectId(matchup._id), function (err, matchup) {
