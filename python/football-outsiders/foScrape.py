@@ -26,7 +26,6 @@ defJson = json.loads(tablesDef[1].to_json())
 client = MongoClient('mongodb://' + db_auth + '@ds137611.mlab.com:37611/systemdb')
 db = client['systemdb']
 stats_collection = db['stats']
-weeks_collection = db['weeks']
 teams_collection = db['teams']
 
 # Cleaned Up JSON
@@ -47,6 +46,7 @@ for num, team in driveTeams.items():
         finalJson[thisTeam['name']] = {
             'team': thisTeam['_id'],
             'week': week,
+            'season': season
             'offLOSDrive': driveJson['OFF.LOS/Dr'][num].split(' ')[0],
             'defLOSDrive': driveJson['DEF.LOS/Dr'][num].split(' ')[0],
         }

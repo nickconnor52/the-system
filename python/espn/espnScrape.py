@@ -34,7 +34,6 @@ defYdsData = json.loads(tablesDefYds[0].to_json())
 client = MongoClient('mongodb://' + db_auth + '@ds137611.mlab.com:37611/systemdb')
 db = client['systemdb']
 stats_collection = db['stats']
-weeks_collection = db['weeks']
 teams_collection = db['teams']
 
 # Cleaned Up JSON
@@ -46,9 +45,6 @@ offYdsTeams = offYdsData['TEAM']
 defYdsTeams = defYdsData['TEAM']
 
 finalJson = {}
-
-# ADD Week Info
-thisWeek = weeks_collection.find_one({'number': week, 'season': season})
 
 # GIVE/TAKE
 for num, team in giveTeams.items():

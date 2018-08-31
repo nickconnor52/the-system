@@ -36,9 +36,6 @@ offTeams = offRZAData['Team']
 
 finalJson = {}
 
-# ADD Week Info
-thisWeek = weeks_collection.find_one({'number': week, 'season': season})
-
 # GIVE/TAKE
 for num, team in offTeams.items():
     if(teams_collection.find_one({'nickname': team})):
