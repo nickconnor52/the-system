@@ -1,9 +1,12 @@
 <template>
 <div class="card">
   <div class="card-header">
-    <ul id="override" class="nav nav-pills card-header-pills d-flex justify-content-md-center matchup-header">
+    <ul id="header-override" class="nav nav-pills card-header-pills d-flex justify-content-md-center matchup-header">
         <li>
           <a class="nav-link text-dark" href="#">View Matchup Details</a>
+        </li>
+        <li>
+          <strong @click="showScoreModal = true" class="nav-link text-dark pointer" href="#">Update Score</strong>
         </li>
         <li>
           <i class="nav-link fas fa-sync-alt pointer align-center" @click="updateLine()" />
@@ -41,7 +44,43 @@
       </div>
     </div>
   </div>
+ <!-- Score Modal --> 
+  <div v-if="showScoreModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title align-center">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showScoreModal = false">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body container">
+                <div class="row justify-content-center">
+                  <label class="col-md-3 col-form-label" for="awayScore">{{ matchup.awayTeam.name }}:</label>
+                  <input type="text" id="awayScore" class="form-control col-md-4" v-model="score.awayTeam" placeholder="Away" style="margin-left: 15px"/>
+                </div>
+                <br>
+                <div class="row justify-content-center">
+                  <label class="col-md-3 col-form-label" for="homeScore">{{ matchup.homeTeam.name }}:</label>
+                  <input type="text" id="homeScore" class="form-control col-md-4" v-model="score.homeTeam" placeholder="Home" style="margin-left: 15px"/>
+                </div>
+                <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="showScoreModal = false">Close</button>
+                <button type="button" class="btn btn-primary" @click="inputScore()">Submit Score</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 </div>
+
 </template>
 
 <script>
@@ -52,6 +91,15 @@ export default {
   props: [
     'matchup'
   ],
+  data () {
+    return {
+      showScoreModal: false,
+      score: {
+        homeTeam: '',
+        awayTeam: ''
+      }
+    }
+  },
   computed: {
     systemSpread () {
       let rawSpread = parseFloat(this.matchup.systemSpread).toFixed(1)
@@ -89,6 +137,15 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    inputScore (score) {
+      axios({
+        url: '/api/matchups/updateScore',
+        method: 'POST',
+        data: this.score
+      }).then(response => {
+        console.log(response)
+      })
     }
   }
 }
@@ -110,12 +167,12 @@ export default {
   margin-bottom: 3em;
 }
 
-#override li i.nav-link {
+#header-override li i.nav-link {
   margin-bottom: auto;
   margin-top: auto;
 }
  
-#override ul {
+#header-override ul {
   display: grid !important;
   grid-column-gap: 5px;
   justify-items: center;
