@@ -145,6 +145,7 @@ export default {
   methods: {
     createNewWeek () {
       this.currentWeek++
+      this.activeWeek = this.currentWeek
     },
     fetchTeams () {
       axios({
