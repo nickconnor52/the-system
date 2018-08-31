@@ -132,7 +132,7 @@ export default {
       return weeks
     },
     weekMatchups () {
-      return this.matchups.filter(matchup => matchup.week === this.activeWeek)
+      return this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
     }
   },
   created () {
@@ -147,7 +147,7 @@ export default {
       var latestWeek = this.weekCount[this.weekCount.length - 1]
       latestWeek++
       this.weekCount.push(latestWeek)
-      this.activeWeek = this.currentWeek
+      this.activeWeek = latestWeek
     },
     fetchTeams () {
       axios({
