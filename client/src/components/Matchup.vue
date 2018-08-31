@@ -13,21 +13,31 @@
         </li>
     </ul>
   </div>
-  <div id="bootstrap-matchup-override" class="row justify-content-md-center card-body">
-    <div class="col-md-4">
-      <div class="card-body logo" :class="{ 'bg-success': this.systemSpread > 0 }">
-      <img :src="getSrc(matchup.awayTeam['name'])" :alt="matchup.awayTeam['name']"/>
-      <h4 class="text-dark">{{matchup.awayTeam['location'] }} {{matchup.awayTeam['name'] }}</h4>
+  <div id="bootstrap-matchup-override" class="card-body">
+    <div class="row justify-content-md-center">
+      <div class="col-md-4">
+        <div class="card-body logo" :class="{ 'bg-success': this.systemSpread > 0 }">
+        <img :src="getSrc(matchup.awayTeam['name'])" :alt="matchup.awayTeam['name']"/>
+        <h4 class="text-dark">{{matchup.awayTeam['location'] }} {{matchup.awayTeam['name'] }}</h4>
+        </div>
+      </div>
+      <div class="col-md-2 align-self-center">
+        <h5 class="align-middle auto-margin">Vegas: {{ matchup.vegasSpread }}</h5>
+        <h5 class="align-end auto-margin">TheSystem: {{ this.systemSpread }}</h5>
+      </div>
+      <div class="col-md-4">
+        <div class="card-body logo" :class="{ 'bg-success': this.systemSpread < 0 }">
+        <img :src="getSrc(matchup.homeTeam['name'])" :alt="matchup.homeTeam['name']"/>
+        <h4 class="text-dark">{{matchup.homeTeam['location'] }} {{ matchup.homeTeam['name'] }}</h4>
+        </div>
       </div>
     </div>
-    <div class="col-md-2 align-self-center">
-      <h5 class="align-middle auto-margin">Vegas: {{ matchup.vegasSpread }}</h5>
-      <h5 class="align-end auto-margin">TheSystem: {{ this.systemSpread }}</h5>
-    </div>
-    <div class="col-md-4">
-      <div class="card-body logo" :class="{ 'bg-success': this.systemSpread < 0 }">
-      <img :src="getSrc(matchup.homeTeam['name'])" :alt="matchup.homeTeam['name']"/>
-      <h4 class="text-dark">{{matchup.homeTeam['location'] }} {{ matchup.homeTeam['name'] }}</h4>
+    <div v-if="matchup.homeTeam.score" class="row justify-content-center">
+      <div class="col-md-4">
+        <strong>{{matchup.awayTeam.score}}</strong>
+      </div>
+      <div class="offset-md-2 col-md-4">
+        <strong>{{matchup.homeTeam.score}}</strong>
       </div>
     </div>
   </div>
