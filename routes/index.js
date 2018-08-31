@@ -90,12 +90,23 @@ router.post('/api/matchups/updateAllLines', function(req, res, next) {
   })
 })
 
+router.post('/api/matchups/updateScore', function(req, res, next) {
+  var matchupInfo = req.body
+  Matchup.findById(new ObjectId(matchupInfo._id), function (err, matchup) {
+    matchup.score = matchupInfo.score
+    console.log(matchupInfo.score)
+    console.log(matchup)
+    matchup.save((err, updatedMatch) => {
+      res.send(updatedMatch)
+    })
+  })
+})
+
 router.delete('/api/matchups' + '/:id', function(req, res, next) {
   var matchupId = new ObjectId(req.params.id)
   Matchup.findByIdAndDelete(matchupId).exec().then(response => {
     findAllMatchups(res)
   })
-  
 })
   
 let findAllMatchups = (res) => {

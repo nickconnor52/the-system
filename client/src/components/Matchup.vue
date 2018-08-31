@@ -35,12 +35,13 @@
         </div>
       </div>
     </div>
-    <div v-if="matchup.homeTeam.score" class="row justify-content-center">
+    <br>
+    <div v-if="matchup.score" class="row justify-content-center">
       <div class="col-md-4">
-        <strong>{{matchup.awayTeam.score}}</strong>
+        <strong class="score">{{matchup.score.awayTeam}}</strong>
       </div>
       <div class="offset-md-2 col-md-4">
-        <strong>{{matchup.homeTeam.score}}</strong>
+        <strong class="score">{{matchup.score.homeTeam}}</strong>
       </div>
     </div>
   </div>
@@ -71,7 +72,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="showScoreModal = false">Close</button>
-                <button type="button" class="btn btn-primary" @click="inputScore()">Submit Score</button>
+                <button type="button" class="btn btn-primary" :disabled="score.homeTeam === '' || score.awayTeam === ''" @click="updateScore()">Submit Score</button>
               </div>
             </div>
           </div>
@@ -133,17 +134,23 @@ export default {
         this.matchup.systemSpread = response.data.systemSpread
         this.$parent.$emit('updatedMatchup', response)
       }
-      )
-        .catch(error => {
-          console.log(error)
-        })
+      ).catch(error => {
+        console.log(error)
+      })
     },
-    inputScore (score) {
+    updateScore () {
+      this.matchup.score = JSON.parse(JSON.stringify(this.score))
       axios({
         url: '/api/matchups/updateScore',
         method: 'POST',
-        data: this.score
+        data: this.matchup
       }).then(response => {
+        this.showScoreModal = false
+        this.matchup.score.homeTeam = response.data.score.homeTeam
+        this.matchup.score.awayTeam = response.data.score.awayTeam
+        this.score.homeTeam = ''
+        this.score.awayTeam = ''
+      }).catch(response => {
         console.log(response)
       })
     }
@@ -179,6 +186,10 @@ export default {
 }
 
 li:nth-child(2) { margin-left: auto; }
+
+.score {
+  font-size: 1.5em
+}
 
 </style>
 

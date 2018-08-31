@@ -8,6 +8,10 @@ var MatchupSchema = new Schema({
   awayTeam: { type: Schema.Types.ObjectId, ref: 'Team' },
   vegasSpread: String,
   systemSpread: String,
+  score: {
+    homeTeam: String,
+    awayTeam: String
+  }
 });
 
 var Matchup = mongoose.model("Matchup", MatchupSchema);
