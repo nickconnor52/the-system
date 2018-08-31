@@ -4,8 +4,8 @@ import json
 from pymongo import MongoClient
 
 # TODO - add week dynamically for automation -- Pass in as parameter populated by the shell script
-week = '0'
-season = '0'
+week = '1'
+season = '2018'
 
 db_auth = os.environ['DB_AUTH']
 
