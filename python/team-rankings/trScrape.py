@@ -2,9 +2,14 @@ import os
 import pandas as pd
 import json
 from pymongo import MongoClient
+import sys
 
-# TODO - add week dynamically for automation
-week = '1'
+# TODO - add week dynamically for automation -- Pass in as parameter populated by the shell script
+week = sys.argv[1]
+
+if not week:
+    sys.exit()
+
 season = '2018'
 
 db_auth = os.environ['DB_AUTH']
@@ -54,12 +59,12 @@ for num, team in defTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2017'][num])
-        stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
+        stats_collection.find_one_and_update({'team': thisTeam['_id'], 'week': week}, {'$set': finalJson[thisTeam['name']]})
 
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2017'][num])
-        stats_collection.find_one_and_update({'team': thisTeam['_id']}, {'$set': finalJson[thisTeam['name']]})
+        stats_collection.find_one_and_update({'team': thisTeam['_id'], 'week': week}, {'$set': finalJson[thisTeam['name']]})
 
 # Close DB
 client.close()

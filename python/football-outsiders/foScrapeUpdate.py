@@ -68,7 +68,7 @@ for num, team in defTeams.items():
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']]['defPtsRz'] = defJson['Pts/RZ'][num].split(' ')[0]
         teamId = ObjectId((finalJson[thisTeam['name']]['team']))
-        stats_collection.insert(finalJson[thisTeam['name']])
+        stats_collection.find_one_and_replace({'team': teamId, 'week': week}, finalJson[thisTeam['name']], upsert=True)
 
 # Close DB
 client.close()
