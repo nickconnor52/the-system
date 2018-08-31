@@ -78,7 +78,7 @@
                 <div class="row form-group">
                   <label class="col-md-3 col-form-label" for="week">Week:</label>
                   <select class="col-md-8 form-control" v-model="chosenWeekNumber" id="week" style="margin-left: 15px">
-                    <option v-for="week in currentWeek + 1" :key="week">{{ week - 1 }}</option>
+                    <option v-for="week in weekCount" :key="week">{{ week }}</option>
                   </select>
                 </div>
               </div>
@@ -144,7 +144,9 @@ export default {
   },
   methods: {
     createNewWeek () {
-      this.currentWeek++
+      var latestWeek = this.weekCount[this.weekCount.length - 1]
+      latestWeek++
+      this.weekCount.push(latestWeek)
       this.activeWeek = this.currentWeek
     },
     fetchTeams () {
