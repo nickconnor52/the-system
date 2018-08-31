@@ -25,7 +25,7 @@
               Add Matchup
             </button>
           </div>
-          <div v-if="matchups.length === 0" class="card">
+          <div v-if="weekMatchups.length === 0" class="card">
               <div class="card-header">
                 <h4 style="margin: auto">There are no matchups for this week</h4>
               </div>
