@@ -94,8 +94,7 @@ router.post('/api/matchups/updateScore', function(req, res, next) {
   var matchupInfo = req.body
   Matchup.findById(new ObjectId(matchupInfo._id), function (err, matchup) {
     matchup.score = matchupInfo.score
-    console.log(matchupInfo.score)
-    console.log(matchup)
+    matchup.correctPick = systemOutcome(matchupInfo)
     matchup.save((err, updatedMatch) => {
       res.send(updatedMatch)
     })
@@ -116,6 +115,11 @@ let findAllMatchups = (res) => {
       matchups: matchups
     })
   }).populate('homeTeam awayTeam')
+}
+
+let systemOutcome = (matchup) => {
+  let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
+  return matchup.systemSpread <= scoreDifferential
 }
 
 router.get("*", (req, res) => {  

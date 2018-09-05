@@ -11,7 +11,8 @@ var MatchupSchema = new Schema({
   score: {
     homeTeam: String,
     awayTeam: String
-  }
+  },
+  correctPick: Boolean
 });
 
 var Matchup = mongoose.model("Matchup", MatchupSchema);
