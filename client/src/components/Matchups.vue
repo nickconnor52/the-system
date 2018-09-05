@@ -145,6 +145,18 @@ export default {
         'wins': winCount,
         'losses': lossCount
       }
+    },
+    weeklyRecord () {
+      let winCount = 0
+      let lossCount = 0
+      this.weekMatchups.forEach(matchup => {
+        matchup.correctPick ? winCount++ : lossCount++
+      })
+
+      return {
+        'wins': winCount,
+        'losses': lossCount
+      }
     }
   },
   created () {
