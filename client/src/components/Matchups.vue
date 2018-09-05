@@ -49,27 +49,27 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add a Matchup</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true" @click="showModal = false">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showModal = false">
+                <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body container">
+                <div class="row">
+                  <label class="col-md-3 col-form-label" for="awayTeam">Away Team:</label>
+                  <multiselect
+                    id="awayTeam"
+                    class="col-md-8"
+                    v-model="awaySelected"
+                    :options="options">
+                  </multiselect>
+                </div>
+                <br>
                 <div class="row">
                   <label class="col-md-3 col-form-label" for="homeTeam">Home Team:</label>
                   <multiselect
                     id="homeTeam"
                     class="col-md-8"
                     v-model="homeSelected"
-                    :options="options">
-                  </multiselect>
-                </div>
-                <br>
-                <div class="row">
-                  <label class="col-md-3 col-form-label" for="homeTeam">Away Team:</label>
-                  <multiselect
-                    id="awayTeam"
-                    class="col-md-8"
-                    v-model="awaySelected"
                     :options="options">
                   </multiselect>
                 </div>
