@@ -121,7 +121,7 @@ let findAllMatchups = (res) => {
 let systemOutcome = (matchup) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
   let homeTeamFavored = matchup.systemSpread < parseFloat(matchup.vegasSpread)
-  let vegasOutcome = scoreDifferential < matchup.vegasSpread
+  let vegasOutcome = scoreDifferential < parseFloat(matchup.vegasSpread)
   return vegasOutcome === homeTeamFavored
 }
 
