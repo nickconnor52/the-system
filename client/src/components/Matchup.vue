@@ -19,7 +19,7 @@
   <div id="bootstrap-matchup-override" class="card-body">
     <div class="row justify-content-md-center">
       <div class="col-md-4">
-        <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner === matchup.awayTeam }">
+        <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner.name === matchup.awayTeam.name }">
         <img :src="getSrc(matchup.awayTeam['name'])" :alt="matchup.awayTeam['name']"/>
         <h4 class="text-dark">{{matchup.awayTeam['location'] }} {{matchup.awayTeam['name'] }}</h4>
         </div>
@@ -31,7 +31,7 @@
         <i v-else-if="matchup.score && !matchup.correctPick" class="far fa-times-circle text-danger" style="font-size: 2em; opacity: 0.8"></i>
       </div>
       <div class="col-md-4">
-        <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner === matchup.homeTeam }">
+        <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner.name === matchup.homeTeam.name }">
         <img :src="getSrc(matchup.homeTeam['name'])" :alt="matchup.homeTeam['name']"/>
         <h4 class="text-dark">{{matchup.homeTeam['location'] }} {{ matchup.homeTeam['name'] }}</h4>
         </div>
@@ -111,7 +111,7 @@ export default {
     predictedWinner () {
       let homeTeam = this.matchup.homeTeam
       let awayTeam = this.matchup.awayTeam
-      if (this.matchup.systemSpread < this.matchup.vegasSpread) {
+      if (this.matchup.systemSpread < parseFloat(this.matchup.vegasSpread)) {
         return homeTeam
       } else {
         return awayTeam
