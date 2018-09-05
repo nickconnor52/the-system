@@ -142,7 +142,9 @@ export default {
       let winCount = 0
       let lossCount = 0
       this.matchups.forEach(matchup => {
-        matchup.correctPick ? winCount++ : lossCount++
+        if (matchup.score) {
+          matchup.correctPick ? winCount++ : lossCount++
+        }
       })
 
       return {
@@ -154,7 +156,9 @@ export default {
       let winCount = 0
       let lossCount = 0
       this.weekMatchups.forEach(matchup => {
-        matchup.correctPick ? winCount++ : lossCount++
+        if (matchup.score) {
+          matchup.correctPick ? winCount++ : lossCount++
+        }
       })
 
       return {

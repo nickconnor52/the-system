@@ -28,7 +28,7 @@
         <h5 class="align-middle auto-margin">Vegas: {{ matchup.vegasSpread }}</h5>
         <h5 class="align-end auto-margin">TheSystem: {{ this.systemSpread }}</h5>
         <i v-if="matchup.score && matchup.correctPick" class="far fa-check-circle text-success" style="font-size: 2em; opacity: 0.8"></i>
-        <i v-else class="far fa-times-circle text-danger" style="font-size: 2em; opacity: 0.8"></i>
+        <i v-else-if="matchup.score && !matchup.correctPick" class="far fa-times-circle text-danger" style="font-size: 2em; opacity: 0.8"></i>
       </div>
       <div class="col-md-4">
         <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner === matchup.homeTeam }">
