@@ -79,8 +79,9 @@ router.post('/api/matchups/updateLine', function(req, res, next) {
 
 router.post('/api/matchups/updateAllLines', function(req, res, next) {
   var matchups = req.body.matchups
+  var week = req.body.week
   matchups.forEach(matchup => {
-    Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, '0')
+    Stat.generateSpread(matchup.homeTeam._id, matchup.awayTeam._id, week)
     .then((systemSpread) => {
       Matchup.findById(new ObjectId(matchup._id), function (err, matchup) {
         matchup.systemSpread = systemSpread
