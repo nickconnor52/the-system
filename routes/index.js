@@ -119,7 +119,11 @@ let findAllMatchups = (res) => {
 
 let systemOutcome = (matchup) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
-  return matchup.systemSpread <= scoreDifferential
+  let homeTeamFavored = matchup.systemSpread < matchup.vegasSpread
+  console.log(homeTeamFavored)
+  let vegasOutcome = scoreDifferential < matchup.vegasSpread
+  console.log(vegasOutcome)
+  return vegasOutcome === homeTeamFavored
 }
 
 router.get("*", (req, res) => {  

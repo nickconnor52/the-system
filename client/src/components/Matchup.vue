@@ -19,7 +19,7 @@
   <div id="bootstrap-matchup-override" class="card-body">
     <div class="row justify-content-md-center">
       <div class="col-md-4">
-        <div class="card-body logo" :class="{ 'bg-success': this.systemSpread > 0 }">
+        <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner === matchup.awayTeam }">
         <img :src="getSrc(matchup.awayTeam['name'])" :alt="matchup.awayTeam['name']"/>
         <h4 class="text-dark">{{matchup.awayTeam['location'] }} {{matchup.awayTeam['name'] }}</h4>
         </div>
@@ -27,9 +27,11 @@
       <div class="col-md-2 align-self-center">
         <h5 class="align-middle auto-margin">Vegas: {{ matchup.vegasSpread }}</h5>
         <h5 class="align-end auto-margin">TheSystem: {{ this.systemSpread }}</h5>
+        <i v-if="matchup.score && matchup.correctPick" class="far fa-check-circle text-success" style="font-size: 2em; opacity: 0.8"></i>
+        <i v-else class="far fa-times-circle text-danger" style="font-size: 2em; opacity: 0.8"></i>
       </div>
       <div class="col-md-4">
-        <div class="card-body logo" :class="{ 'bg-success': this.systemSpread < 0 }">
+        <div class="card-body logo" :class="{ 'bg-success': this.predictedWinner === matchup.homeTeam }">
         <img :src="getSrc(matchup.homeTeam['name'])" :alt="matchup.homeTeam['name']"/>
         <h4 class="text-dark">{{matchup.homeTeam['location'] }} {{ matchup.homeTeam['name'] }}</h4>
         </div>
@@ -105,6 +107,15 @@ export default {
     systemSpread () {
       let rawSpread = parseFloat(this.matchup.systemSpread).toFixed(1)
       return rawSpread > 0 ? '+' + rawSpread : rawSpread
+    },
+    predictedWinner () {
+      let homeTeam = this.matchup.homeTeam
+      let awayTeam = this.matchup.awayTeam
+      if (this.matchup.systemSpread < this.matchup.vegasSpread) {
+        return homeTeam
+      } else {
+        return awayTeam
+      }
     }
   },
   methods: {
@@ -148,6 +159,7 @@ export default {
         this.showScoreModal = false
         this.matchup.score.homeTeam = response.data.score.homeTeam
         this.matchup.score.awayTeam = response.data.score.awayTeam
+        this.matchup.correctPick = response.data.correctPick
         this.score.homeTeam = ''
         this.score.awayTeam = ''
       }).catch(response => {
