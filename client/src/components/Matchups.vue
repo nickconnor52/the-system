@@ -102,6 +102,7 @@
 import axios from 'axios'
 import Matchup from './Matchup'
 import { Multiselect } from 'vue-multiselect'
+import _ from 'lodash'
 
 export default {
   name: 'matchups',
@@ -113,13 +114,13 @@ export default {
     return {
       teams: null,
       matchups: [],
-      activeWeek: '0',
+      activeWeek: '1',
       showModal: false,
       homeSelected: null,
       awaySelected: null,
       matchupLine: '',
       chosenWeekNumber: '',
-      currentWeek: 0
+      currentWeek: 1
     }
   },
   computed: {
@@ -133,7 +134,7 @@ export default {
           weeks.push(matchup.week)
         }
       })
-      return weeks
+      return _.orderBy(weeks)
     },
     weekMatchups () {
       return this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
