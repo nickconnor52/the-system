@@ -107,7 +107,7 @@ router.delete('/api/matchups' + '/:id', function(req, res, next) {
     findAllMatchups(res)
   })
 })
-  
+
 let findAllMatchups = (res) => {
   Matchup.find({}, {}, function (error, matchups) {
     if (error) { console.error(error); }
@@ -120,9 +120,7 @@ let findAllMatchups = (res) => {
 let systemOutcome = (matchup) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
   let homeTeamFavored = matchup.systemSpread < matchup.vegasSpread
-  console.log(homeTeamFavored)
   let vegasOutcome = scoreDifferential < matchup.vegasSpread
-  console.log(vegasOutcome)
   return vegasOutcome === homeTeamFavored
 }
 

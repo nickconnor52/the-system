@@ -133,6 +133,18 @@ export default {
     },
     weekMatchups () {
       return this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
+    },
+    overallRecord () {
+      let winCount = 0
+      let lossCount = 0
+      this.matchups.forEach(matchup => {
+        matchup.correctPick ? winCount++ : lossCount++
+      })
+
+      return {
+        'wins': winCount,
+        'losses': lossCount
+      }
     }
   },
   created () {
