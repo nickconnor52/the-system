@@ -55,7 +55,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title align-center">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
+                <h5 class="modal-title" style="width: 100%;">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showScoreModal = false">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -91,7 +91,7 @@
           <div class="modal-dialog" style="max-width: 1250px" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title align-center">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
+                <h5 class="modal-title" style="width: 100%;">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showMatchupModal = false">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -184,7 +184,7 @@ export default {
   },
   computed: {
     teams () {
-      return [this.homeTeamStats, this.awayTeamStats]
+      return [this.awayTeamStats, this.homeTeamStats]
     },
     systemSpread () {
       let rawSpread = parseFloat(this.matchup.systemSpread).toFixed(1)
