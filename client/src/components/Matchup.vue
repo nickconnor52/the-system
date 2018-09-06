@@ -3,10 +3,10 @@
   <div class="card-header">
     <ul id="header-override" class="nav nav-pills card-header-pills d-flex justify-content-md-center matchup-header">
         <li>
-          <a class="nav-link text-dark" href="#">View Matchup Details</a>
+          <a @click="showMatchupModal=true" class="nav-link text-dark" href="#">View Matchup Details</a>
         </li>
         <li>
-          <strong @click="showScoreModal = true" class="nav-link text-dark pointer" href="#">Update Score</strong>
+          <strong @click="showScoreModal=true" class="nav-link text-dark pointer" href="#">Update Score</strong>
         </li>
         <li>
           <i class="nav-link fas fa-sync-alt pointer align-center" @click="updateLine()" />
@@ -82,6 +82,57 @@
       </div>
     </transition>
   </div>
+
+  <!-- Stats Modal --> 
+  <div v-if="showMatchupModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title align-center">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showMatchupModal = false">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body container">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td colspan="2">Larry the Bird</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 </div>
 
 </template>
@@ -97,6 +148,7 @@ export default {
   data () {
     return {
       showScoreModal: false,
+      showMatchupModal: false,
       score: {
         homeTeam: '',
         awayTeam: ''
