@@ -70,6 +70,9 @@ router.post('/api/matchups/updateLine', function(req, res, next) {
   .then((systemSpread) => {
     Matchup.findById(new ObjectId(matchup._id), function (err, matchup) {
       matchup.systemSpread = systemSpread
+      if (matchup.score) {
+        matchup.correctPick = systemOutcome(matchup)
+      }
       matchup.save((err, updatedMatch) => {
         res.send(updatedMatch)
       })

@@ -5,7 +5,8 @@ var TeamSchema = new Schema({
   name: String,
   location: String,
   logoRef: String,
-  nickname: Array
+  nickname: Array,
+  homeFieldAdvantage: String
 });
 
 var Team = mongoose.model("Team", TeamSchema);

@@ -1,6 +1,8 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var ObjectId = mongoose.Types.ObjectId; 
+var ObjectId = mongoose.Types.ObjectId;
+var Team = require("../models/team");
+var homeTeamGlobal = null
 
 var StatSchema = new Schema({
   team: { type: Schema.Types.ObjectId, ref: 'Team' },
@@ -27,10 +29,12 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   // Home Team
   var homeTeamStats = null
   homeTeamStats = await findTeamStatsByWeekAndId(homeTeamId, weekNumber)
-
+  
   // Away Team
   var awayTeamStats = null
   awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)
+
+  homeTeamGlobal = await findHomeTeam(homeTeamId)
 
   // Calculated Statistics
   homeTeamStats.calculatedProperties = generateRawCalculatedProperties(homeTeamStats, awayTeamStats)
@@ -83,6 +87,9 @@ var applyPointAdjustments = (homeTeam, awayTeam) => {
   } else if (awayTeam.rzaPts > homeTeam.rzaPts) {
     awayWeightedTotal += awayTeam.rzaPts - homeTeam.rzaPts
   }
+
+  // HFA
+  homeWeightedTotal += parseFloat(homeTeamGlobal.homeFieldAdvantage)
 
   var homePPGAdjust = 0
   var awayPPGAdjust = 0
@@ -137,6 +144,11 @@ var offDefStatAverage = (teamStat, opponentStat) => {
 var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
   var teamObjId = new ObjectId(teamId.toString())
   return Stat.findOne({ 'team': teamObjId, 'week': weekNumber }, {}, {}).exec()
+}
+
+var findHomeTeam = (homeTeamId) => {
+  var teamObjId = new ObjectId(homeTeamId.toString())
+  return Team.findOne({ '_id': teamObjId }, {}, {}).exec()
 }
 
 var Stat = mongoose.model("Stat", StatSchema);
