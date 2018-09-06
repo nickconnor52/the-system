@@ -171,16 +171,7 @@ export default {
     }
   },
   created () {
-    axios({
-      url: '/api/stats/getMatchupStats',
-      method: 'POST',
-      data: this.matchup
-    }).then(response => {
-      this.homeTeamStats = response.data.homeTeamStats
-      this.awayTeamStats = response.data.awayTeamStats
-    }).catch(error => {
-      console.log(error)
-    })
+    this.getMatchupStats()
   },
   computed: {
     teams () {
@@ -201,6 +192,18 @@ export default {
     }
   },
   methods: {
+    getMatchupStats () {
+      axios({
+        url: '/api/stats/getMatchupStats',
+        method: 'POST',
+        data: this.matchup
+      }).then(response => {
+        this.homeTeamStats = response.data.homeTeamStats
+        this.awayTeamStats = response.data.awayTeamStats
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     getSrc (name) {
       var images = require.context('../../static/img/logos/', false, /\.png$/)
       return images('./' + name.toLowerCase() + '.png')
