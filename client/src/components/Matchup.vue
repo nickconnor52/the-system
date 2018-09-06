@@ -119,8 +119,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="team in teams" :key="team.name">
-                      <th scope="row">1</th>
+                    <tr v-for="team in teams" :key="team.team.name">
+                      <th scope="row">{{ team.team.name }}</th>
                       <td>test</td>
                       <td>Otto</td>
                       <td>@mdo</td>
@@ -165,12 +165,26 @@ export default {
       score: {
         homeTeam: '',
         awayTeam: ''
-      }
+      },
+      homeTeamStats: {},
+      awayTeamStats: {}
     }
+  },
+  created () {
+    axios({
+      url: '/api/stats/getMatchupStats',
+      method: 'POST',
+      data: this.matchup
+    }).then(response => {
+      this.homeTeamStats = response.data.homeTeamStats
+      this.awayTeamStats = response.data.awayTeamStats
+    }).catch(error => {
+      console.log(error)
+    })
   },
   computed: {
     teams () {
-      return [this.matchup.awayTeam, this.matchup.homeTeam]
+      return [this.homeTeamStats, this.awayTeamStats]
     },
     systemSpread () {
       let rawSpread = parseFloat(this.matchup.systemSpread).toFixed(1)
@@ -199,10 +213,9 @@ export default {
       }).then(response => {
         this.$parent.$emit('deletedMatchup', response)
       }
-      )
-        .catch(error => {
-          console.log(error)
-        })
+      ).catch(error => {
+        console.log(error)
+      })
     },
     updateLine () {
       axios({

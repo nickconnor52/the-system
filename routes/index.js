@@ -105,6 +105,27 @@ router.post('/api/matchups/updateScore', function(req, res, next) {
   })
 })
 
+router.post('/api/stats/getMatchupStats', async function(req, res, next) {
+  console.log(req)
+    let homeTeamId = req.body.homeTeam._id
+    let awayTeamId = req.body.awayTeam._id
+    let weekNumber = req.body.week
+    // Home Team
+    var homeTeamStats = null
+    homeTeamStats = await findTeamStatsByWeekAndId(homeTeamId, weekNumber)
+    
+    // Away Team
+    var awayTeamStats = null
+    awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)
+
+    res.send({ awayTeamStats, homeTeamStats })
+})
+
+var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
+  var teamObjId = new ObjectId(teamId.toString())
+  return Stat.findOne({ 'team': teamObjId, 'week': weekNumber }, {}, {}).populate('team').exec()
+}
+
 router.delete('/api/matchups' + '/:id', function(req, res, next) {
   var matchupId = new ObjectId(req.params.id)
   Matchup.findByIdAndDelete(matchupId).exec().then(response => {
