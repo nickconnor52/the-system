@@ -106,7 +106,6 @@ router.post('/api/matchups/updateScore', function(req, res, next) {
 })
 
 router.post('/api/stats/getMatchupStats', async function(req, res, next) {
-  console.log(req)
     let homeTeamId = req.body.homeTeam._id
     let awayTeamId = req.body.awayTeam._id
     let weekNumber = req.body.week
