@@ -172,6 +172,8 @@ export default {
   },
   created () {
     this.getMatchupStats()
+    // TODO ---- CALL ON SELECT WEEK OR GET MATCHUP DETAILS SO THAT IT UPDATES 
+    // DYNAMICALLY THE STATS OBJECT FOR EACH WEEK/MATCHUP
   },
   computed: {
     teams () {
