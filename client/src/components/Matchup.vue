@@ -97,7 +97,7 @@
                 </button>
               </div>
               <div class="modal-body container">
-                <table class="table table-sm">
+                <table class="table table-sm table-hover">
                   <thead>
                     <tr>
                       <th scope="col">Team Name</th>
@@ -113,7 +113,7 @@
                       <th scope="col">Off Pass Yds/gm</th>
                       <th scope="col">Off Rush Yds/gm</th>
                       <th scope="col">Def Pass Yds/gm</th>
-                      <th scope="col">Def Pass Yds/gm</th>
+                      <th scope="col">Def Rush Yds/gm</th>
                       <th scope="col">Off Pts/gm</th>
                       <th scope="col">Def Pts/gm</th>
                     </tr>
@@ -121,21 +121,21 @@
                   <tbody>
                     <tr v-for="team in teams" :key="team.team.name">
                       <th scope="row">{{ team.team.name }}</th>
-                      <td>test</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <th scope="row">1</th>
-                      <td>test</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <th scope="row">1</th>
-                      <td>test</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <th scope="row">1</th>
-                      <td>test</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
+                      <td>{{ team.offLOSDrive }}</td>
+                      <td>{{ team.defLOSDrive }}</td>
+                      <td>{{ team.offPtsRz }}</td>
+                      <td>{{ team.defPtsRz }}</td>
+                      <td>{{ team.offRZAGame }}</td>
+                      <td>{{ team.defRZAGame }}</td>
+                      <td>{{ team.giveTakeDiff }}</td>
+                      <td>{{ team.off3rdPct }}</td>
+                      <td>{{ team.def3rdPct }}</td>
+                      <td>{{ team.offPassYdsGame }}</td>
+                      <td>{{ team.offRushYdsGame }}</td>
+                      <td>{{ team.defPassYdsGame }}</td>
+                      <td>{{ team.defRushYdsGame }}</td>
+                      <td>{{ team.offPtsGame }}</td>
+                      <td>{{ team.defPtsGame }}</td>
                     </tr>
                   </tbody>
                 </table>
