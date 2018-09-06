@@ -88,7 +88,7 @@
     <transition name="modal">
       <div class="modal-mask">
         <div class="modal-wrapper">
-          <div class="modal-dialog" style="max-width: 1000px" role="document">
+          <div class="modal-dialog" style="max-width: 1250px" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title align-center">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
@@ -101,21 +101,21 @@
                   <thead>
                     <tr>
                       <th scope="col">Team Name</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
+                      <th scope="col">Off LOS/Dr.</th>
+                      <th scope="col">Def LOS/Dr.</th>
+                      <th scope="col">Off Pts/RZA</th>
+                      <th scope="col">Def Pts/RZA</th>
+                      <th scope="col">Off RZA/gm</th>
+                      <th scope="col">Def RZA/gm</th>
+                      <th scope="col">(+/-)</th>
+                      <th scope="col">Off 3rd Down %</th>
+                      <th scope="col">Def 3rd Down %</th>
+                      <th scope="col">Off Pass Yds/gm</th>
+                      <th scope="col">Off Rush Yds/gm</th>
+                      <th scope="col">Def Pass Yds/gm</th>
+                      <th scope="col">Def Pass Yds/gm</th>
+                      <th scope="col">Off Pts/gm</th>
+                      <th scope="col">Def Pts/gm</th>
                     </tr>
                   </thead>
                   <tbody>
