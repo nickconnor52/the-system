@@ -102,6 +102,7 @@
 import axios from 'axios'
 import Matchup from './Matchup'
 import { Multiselect } from 'vue-multiselect'
+import { mapState } from 'vuex'
 import _ from 'lodash'
 
 export default {
@@ -114,7 +115,6 @@ export default {
     return {
       teams: null,
       matchups: [],
-      activeWeek: '1',
       showModal: false,
       homeSelected: null,
       awaySelected: null,
@@ -124,6 +124,9 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'activeWeek'
+    ]),
     options () {
       return this.teams.map(team => team.name)
     },
@@ -180,7 +183,7 @@ export default {
       var latestWeek = this.weekCount[this.weekCount.length - 1]
       latestWeek++
       this.weekCount.push(latestWeek)
-      this.activeWeek = latestWeek
+      this.$store.commit('setActiveWeek', latestWeek)
     },
     fetchTeams () {
       axios({
@@ -230,7 +233,7 @@ export default {
       }
     },
     selectWeek (weekNumber) {
-      this.activeWeek = weekNumber
+      this.$store.commit('setActiveWeek', weekNumber)
     },
     isActive (weekNumber) {
       return weekNumber === this.activeWeek

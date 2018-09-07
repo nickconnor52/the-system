@@ -4,10 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  luckyNumber: '52'
+  luckyNumber: '52',
+  activeWeek: '1'
 }
 const getters = { }
-const mutations = { }
+const mutations = {
+  setActiveWeek (state, data) {
+    state.activeWeek = data
+    console.log(state.activeWeek)
+  }
+}
 const actions = { }
 
 export default new Vuex.Store({

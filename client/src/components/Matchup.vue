@@ -189,6 +189,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
   name: 'matchup',
@@ -215,6 +216,9 @@ export default {
     // DYNAMICALLY THE STATS OBJECT FOR EACH WEEK/MATCHUP
   },
   computed: {
+    ...mapState([
+      'activeWeek'
+    ]),
     teams () {
       return [this.awayTeamStats, this.homeTeamStats]
     },
@@ -267,6 +271,11 @@ export default {
       }
 
       return optionsObject
+    }
+  },
+  watch: {
+    activeWeek () {
+      this.getMatchupStats()
     }
   },
   methods: {
