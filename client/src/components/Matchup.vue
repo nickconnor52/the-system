@@ -334,7 +334,6 @@ export default {
         method: 'POST',
         data: this.matchup
       }).then(response => {
-        console.log(response.data)
         this.showSpreadModal = false
         this.matchup.spreadHistory = response.data.spreadHistory
         this.matchup.vegasSpread = response.data.vegasSpread
