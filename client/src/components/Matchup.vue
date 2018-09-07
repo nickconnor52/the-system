@@ -289,9 +289,9 @@ export default {
       })
     },
     updateSpread () {
-      this.matchup.currentSpread = this.updatedSpread
+      this.matchup.currentSpread = this.updatedSpread <= 0 ? this.updatedSpread : '+' + this.updatedSpread
       axios({
-        url: '/api/matchups/updateScore',
+        url: '/api/matchups/updateSpread',
         method: 'POST',
         data: this.matchup
       }).then(response => {

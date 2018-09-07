@@ -55,6 +55,10 @@ router.post('/api/matchups', function(req, res, next) {
       vegasSpread: req.body.vegasSpread,
       systemSpread: systemSpread
     })
+    let currentSpread = req.body.vegasSpread
+    let timestamp = Date.now()
+    let spreadObject = { spread: currentSpread, date: timestamp }
+    matchup.spreadHistory.push(spreadObject)
     matchup.save(function() {
       findAllMatchups(res)
     })
@@ -99,6 +103,20 @@ router.post('/api/matchups/updateScore', function(req, res, next) {
   Matchup.findById(new ObjectId(matchupInfo._id), function (err, matchup) {
     matchup.score = matchupInfo.score
     matchup.correctPick = systemOutcome(matchupInfo)
+    matchup.save((err, updatedMatch) => {
+      res.send(updatedMatch)
+    })
+  })
+})
+
+router.post('/api/matchups/updateSpread', function(req, res, next) {
+  var matchupInfo = req.body
+  Matchup.findById(new ObjectId(matchupInfo._id), function (err, matchup) {
+    let currentSpread = matchupInfo.currentSpread
+    let timestamp = Date.now()
+    let spreadObject = { spread: currentSpread, date: timestamp }
+    matchup.spreadHistory.push(spreadObject)
+    matchup.vegasSpread = currentSpread
     matchup.save((err, updatedMatch) => {
       res.send(updatedMatch)
     })
