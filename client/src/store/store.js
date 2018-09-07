@@ -11,7 +11,6 @@ const getters = { }
 const mutations = {
   setActiveWeek (state, data) {
     state.activeWeek = data
-    console.log(state.activeWeek)
   }
 }
 const actions = { }
