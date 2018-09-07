@@ -312,8 +312,9 @@ export default {
       })
     },
     updateScore () {
+      this.matchup.score = JSON.parse(JSON.stringify(this.score))
       axios({
-        url: '/api/matchups/updateSpread',
+        url: '/api/matchups/updateScore',
         method: 'POST',
         data: this.matchup
       }).then(response => {
