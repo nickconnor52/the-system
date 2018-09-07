@@ -7,12 +7,14 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import store from './store/store'
 import axios from 'axios'
+import HighchartsVue from 'highcharts-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'es6-promise/auto'
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
+Vue.use(HighchartsVue)
 Vue.config.productionTip = false
 
 window.Vue = require('vue')

@@ -175,7 +175,7 @@
                   </tbody>
                 </table>
                 <br>
-                <h1>Hi</h1>
+                <highcharts :options="chartOptions"></highcharts>
               </div>
             </div>
           </div>
@@ -230,6 +230,15 @@ export default {
       } else {
         return awayTeam
       }
+    },
+    chartOptions () {
+      let optionsObject = {
+        series: [{
+          data: [1, 2, 3] // sample data
+        }]
+      }
+
+      return optionsObject
     }
   },
   methods: {
