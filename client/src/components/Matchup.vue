@@ -232,10 +232,38 @@ export default {
       }
     },
     chartOptions () {
+      var spreadHistory = this.matchup.spreadHistory.map(point => {
+        return [point.date, parseFloat(point.spread)]
+      })
       let optionsObject = {
         series: [{
-          data: [1, 2, 3] // sample data
-        }]
+          data: spreadHistory, // sample data
+          name: 'Spread'
+        }],
+        title: 'Spread History',
+        xAxis: {
+          type: 'datetime',
+          ordinal: false,
+          dateTimeLabelFormats: { // don't display the dummy year
+            day: '%e. %b',
+            hour: '%H:%M'
+          },
+          title: {
+            text: 'Date'
+          }
+        },
+        lang: {
+          noData: 'No Spread History'
+        },
+        noData: {
+          style: {
+            fontWeight: 'bold',
+            fontSize: '2em'
+          }
+        },
+        credits: {
+          enabled: false
+        }
       }
 
       return optionsObject

@@ -7,10 +7,13 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import store from './store/store'
 import axios from 'axios'
+import Highcharts from 'highcharts'
 import HighchartsVue from 'highcharts-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'es6-promise/auto'
+
+require('highcharts/modules/no-data-to-display')(Highcharts)
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
