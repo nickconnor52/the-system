@@ -6,6 +6,9 @@
           <a @click="showMatchupModal=true" class="nav-link text-dark" href="#">View Matchup Details</a>
         </li>
         <li>
+          <strong @click="showSpreadModal=true" class="nav-link text-dark pointer" href="#">Update Current Spread</strong>
+        </li>
+        <li>
           <strong @click="showScoreModal=true" class="nav-link text-dark pointer" href="#">Update Score</strong>
         </li>
         <li>
@@ -47,6 +50,38 @@
       </div>
     </div>
   </div>
+
+ <!-- Spread Modal --> 
+  <div v-if="showSpreadModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" style="width: 100%;">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showSpreadModal = false">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body container">
+                <div class="row justify-content-center">
+                  <label class="col-md-4 col-form-label" for="spread">Home Spread:</label>
+                  <input type="text" id="spread" class="form-control col-md-4" v-model="updatedSpread" placeholder="Current Spread" style="margin-left: 15px"/>
+                </div>
+                <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="showSpreadModal = false">Close</button>
+                <button type="button" class="btn btn-primary" :disabled="updatedSpread === ''" @click="updateSpread()">Submit Spread</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
+
  <!-- Score Modal --> 
   <div v-if="showScoreModal">
     <transition name="modal">
@@ -162,10 +197,12 @@ export default {
     return {
       showScoreModal: false,
       showMatchupModal: false,
+      showSpreadModal: false,
       score: {
         homeTeam: '',
         awayTeam: ''
       },
+      updatedSpread: '',
       homeTeamStats: {},
       awayTeamStats: {}
     }
@@ -236,9 +273,8 @@ export default {
       })
     },
     updateScore () {
-      this.matchup.score = JSON.parse(JSON.stringify(this.score))
       axios({
-        url: '/api/matchups/updateScore',
+        url: '/api/matchups/updateSpread',
         method: 'POST',
         data: this.matchup
       }).then(response => {
@@ -248,6 +284,22 @@ export default {
         this.matchup.correctPick = response.data.correctPick
         this.score.homeTeam = ''
         this.score.awayTeam = ''
+      }).catch(response => {
+        console.log(response)
+      })
+    },
+    updateSpread () {
+      this.matchup.currentSpread = this.updatedSpread
+      axios({
+        url: '/api/matchups/updateScore',
+        method: 'POST',
+        data: this.matchup
+      }).then(response => {
+        console.log(response.data)
+        this.showSpreadModal = false
+        this.matchup.spreadHistory = response.data.spreadHistory
+        this.matchup.vegasSpread = response.data.vegasSpread
+        this.updatedSpread = ''
       }).catch(response => {
         console.log(response)
       })
