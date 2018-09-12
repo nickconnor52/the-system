@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 const state = {
   luckyNumber: '52',
-  activeWeek: '1'
+  activeWeek: '2'
 }
 const getters = { }
 const mutations = {

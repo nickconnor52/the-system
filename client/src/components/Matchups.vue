@@ -82,7 +82,7 @@
                 <div class="row form-group">
                   <label class="col-md-3 col-form-label" for="week">Week:</label>
                   <select class="col-md-8 form-control" v-model="chosenWeekNumber" id="week" style="margin-left: 15px">
-                    <option v-for="week in weekCount" :key="week">{{ week }}</option>
+                    <option v-for="week in descendingWeekCount" :key="week">{{ week }}</option>
                   </select>
                 </div>
               </div>
@@ -119,8 +119,7 @@ export default {
       homeSelected: null,
       awaySelected: null,
       matchupLine: '',
-      chosenWeekNumber: '',
-      currentWeek: 1
+      chosenWeekNumber: ''
     }
   },
   computed: {
@@ -138,6 +137,9 @@ export default {
         }
       })
       return _.orderBy(weeks)
+    },
+    descendingWeekCount () {
+      return _.orderBy(this.weekCount, [], ['desc'])
     },
     weekMatchups () {
       return this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
