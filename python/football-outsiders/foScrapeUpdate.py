@@ -15,15 +15,15 @@ season = '2018'
 db_auth = os.environ['DB_AUTH']
 
 # LOS Data
-tablesDrive = pd.read_html("http://www.footballoutsiders.com/stats/drivestats", header=0)
+tablesDrive = pd.read_html("https://www.footballoutsiders.com/stats/drivestats2018", header=0)
 driveJson = json.loads(tablesDrive[1].to_json())
 
 # OFF pts/RZ
-tablesOff = pd.read_html("http://www.footballoutsiders.com/stats/drivestatsoff", header=0)
+tablesOff = pd.read_html("https://www.footballoutsiders.com/stats/drivestatsoff2018", header=0)
 offJson = json.loads(tablesOff[1].to_json())
 
 # DEF pts/RZ
-tablesDef = pd.read_html("http://www.footballoutsiders.com/stats/drivestatsdef2017", header=0)
+tablesDef = pd.read_html("https://www.footballoutsiders.com/stats/drivestatsdef2018", header=0)
 defJson = json.loads(tablesDef[1].to_json())
 
 # Connect to DB

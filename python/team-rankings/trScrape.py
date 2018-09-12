@@ -14,10 +14,6 @@ season = '2018'
 
 db_auth = os.environ['DB_AUTH']
 
-# Give/Take Data
-tablesGive = pd.read_html("http://www.espn.com/nfl/statistics/team/_/stat/givetake", header=1)
-giveData = json.loads(tablesGive[0].to_json())
-
 # OFF RZA Data
 tablesOffRZA = pd.read_html("https://www.teamrankings.com/nfl/stat/red-zone-scoring-attempts-per-game", header=0)
 offRZAData = json.loads(tablesOffRZA[0].to_json())
@@ -46,24 +42,24 @@ for num, team in offTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
         finalJson[thisTeam['name']] = {
-            'offRZAGame': str(offRZAData['2017'][num])
+            'offRZAGame': str(offRZAData['2018'][num])
         }
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
         finalJson[thisTeam['name']] = {
-            'offRZAGame': str(offRZAData['2017'][num])
+            'offRZAGame': str(offRZAData['2018'][num])
         }
 
 # DEF Yds/Game
 for num, team in defTeams.items():
     if(teams_collection.find_one({'nickname': team})):
         thisTeam = teams_collection.find_one({'nickname': team})
-        finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2017'][num])
+        finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2018'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id'], 'week': week}, {'$set': finalJson[thisTeam['name']]})
 
     elif(teams_collection.find_one({'location': team})):
         thisTeam = teams_collection.find_one({'location': team})
-        finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2017'][num])
+        finalJson[thisTeam['name']]['defRZAGame'] = str(defRZAData['2018'][num])
         stats_collection.find_one_and_update({'team': thisTeam['_id'], 'week': week}, {'$set': finalJson[thisTeam['name']]})
 
 # Close DB
