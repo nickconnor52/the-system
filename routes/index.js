@@ -9,6 +9,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var Team = require("../models/team");
 var Stat = require("../models/stat");
 var Matchup = require("../models/matchup");
+var Schedule = require("../models/schedule");
 
 // ------ EXPRESS VIEWS ------
 // ---- HOME PAGE  ----
@@ -48,7 +49,7 @@ router.post('/api/matchups', function(req, res, next) {
   Stat.generateSpread(req.body.homeTeam._id, req.body.awayTeam._id, week)
   .then((systemSpread) => {
     var matchup = new Matchup({
-      week: week,  // TODO: Get this from the frontend
+      week: week,
       season: '2018',
       homeTeam: req.body.homeTeam._id,
       awayTeam: req.body.awayTeam._id,
@@ -66,6 +67,18 @@ router.post('/api/matchups', function(req, res, next) {
   .catch(error => {
     console.log(error)
   })
+})
+
+router.post('/api/matchups/addAllWeeklyMatchups', async function(req, res, next) {
+  let week = req.body.week
+  await Matchup.populateMatchupsFromSchedule(week)
+  // TODO: REMOVE THIS SET TIMEOUT IMMEDIATELY
+  // FIGURE OUT WHY ASYNC CALL ORDER ISNT WORKING
+  // FINDALLMATCHUPS CALLED BEFORE SAVE IS COMPLETE
+  // REQUIRES REFRESH TO SEE UPDATED MATCHUPS
+  setTimeout(() => {
+    findAllMatchups(res)
+  }, 2000)
 })
 
 router.post('/api/matchups/updateLine', function(req, res, next) {
@@ -148,6 +161,8 @@ router.delete('/api/matchups' + '/:id', function(req, res, next) {
   Matchup.findById(matchupId).exec().then(response => {
     response.delete().then(matchup => {
       findAllMatchups(res)
+    }).catch(error => {
+      console.log(error)
     })
   })
 })

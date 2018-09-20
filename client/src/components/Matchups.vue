@@ -189,9 +189,12 @@ export default {
       axios({
         url: '/api/matchups/addAllWeeklyMatchups',
         method: 'POST',
-        data: { week: '3' }
+        data: { week: latestWeek }
       })
-        .then()
+        .then(response => {
+          console.log(response)
+          this.matchups = response.data['matchups']
+        })
         .catch(error => {
           console.log(error)
         })
