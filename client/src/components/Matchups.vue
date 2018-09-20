@@ -142,7 +142,8 @@ export default {
       return _.orderBy(this.weekCount, [], ['desc'])
     },
     weekMatchups () {
-      return this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
+      let filteredList = this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
+      return _.orderBy(filteredList, ['date', 'time'], ['asc', 'asc'])
     },
     overallRecord () {
       let winCount = 0
