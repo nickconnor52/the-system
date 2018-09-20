@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var mongoose_delete = require('mongoose-delete');
 
 var MatchupSchema = new Schema({
   week: String,
@@ -15,6 +16,8 @@ var MatchupSchema = new Schema({
   correctPick: Boolean,
   spreadHistory: []
 });
+
+MatchupSchema.plugin(mongoose_delete, { overrideMethods: 'all'});
 
 var Matchup = mongoose.model("Matchup", MatchupSchema);
 module.exports = Matchup;

@@ -18,6 +18,7 @@
     "jade": "~1.11.0",
     "mongodb": "^3.0.5",
     "mongoose": "^5.2.6",
+    "mongoose-delete": "^0.4.0",
     "monk": "^6.0.5",
     "morgan": "~1.9.0",
     "supervisor": "^0.12.0"

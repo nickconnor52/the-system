@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 
 var mongoose = require("mongoose");
-var ObjectId = mongoose.Types.ObjectId; 
+var ObjectId = mongoose.Types.ObjectId;
 
 // Models
 var Team = require("../models/team");
@@ -145,8 +145,10 @@ var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
 
 router.delete('/api/matchups' + '/:id', function(req, res, next) {
   var matchupId = new ObjectId(req.params.id)
-  Matchup.findByIdAndDelete(matchupId).exec().then(response => {
-    findAllMatchups(res)
+  Matchup.findById(matchupId).exec().then(response => {
+    response.delete().then(matchup => {
+      findAllMatchups(res)
+    })
   })
 })
 
