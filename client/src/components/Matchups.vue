@@ -186,6 +186,15 @@ export default {
       latestWeek++
       this.weekCount.push(latestWeek)
       this.$store.commit('setActiveWeek', latestWeek)
+      axios({
+        url: '/api/matchups/addAllWeeklyMatchups',
+        method: 'POST',
+        data: { week: '3' }
+      })
+        .then()
+        .catch(error => {
+          console.log(error)
+        })
     },
     fetchTeams () {
       axios({
