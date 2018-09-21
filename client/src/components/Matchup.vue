@@ -215,7 +215,6 @@ export default {
     this.getMatchupStats()
     // TODO ---- CALL ON SELECT WEEK OR GET MATCHUP DETAILS SO THAT IT UPDATES
     // DYNAMICALLY THE STATS OBJECT FOR EACH WEEK/MATCHUP
-
     if (!this.matchup.score) {
       this.queryForScore()
     }
@@ -281,27 +280,31 @@ export default {
   watch: {
     activeWeek () {
       this.getMatchupStats()
+      if (!this.matchup.score) {
+        this.queryForScore()
+      }
     }
   },
   methods: {
     queryForScore () {
       let gameDate = this.matchup.date.replace(/-/g, '')
       let today = moment().format('YYYYMMDD')
-      console.log(process.env.VUE_APP_STATS_TOKEN)
       if (gameDate <= today) {
         axios({
           url: 'https://api.mysportsfeeds.com/v1.2/pull/nfl/current/scoreboard.json?fordate=' + gameDate,
           headers: {
-            'Authorization': 'Basic ' + btoa(process.env.STATS_KEY + ':' + process.env.STATS_PASSWORD),
+            'Authorization': 'Basic MzdlODBjYmEtNDk5Yy00YjQ1LWE4NjktOTRkYjBkOmhhcnZleTYyNTM=',
             'Content-Type': 'application/json'
           },
           method: 'GET'
         })
           .then(response => {
-            let score = response.data.scoreboard.gameScore[0]
-            this.score.homeTeam = score.homeScore
-            this.score.awayTeam = score.awayScore
-            console.log(score)
+            let matchupResults = response.data.scoreboard.gameScore.filter(gameScore => {
+              return this.matchup.awayTeam.location === gameScore.game.awayTeam.City && this.matchup.homeTeam.location === gameScore.game.homeTeam.City
+            })
+            this.score.homeTeam = matchupResults[0].homeScore
+            this.score.awayTeam = matchupResults[0].awayScore
+            this.updateScore()
           })
       }
     },
@@ -359,6 +362,8 @@ export default {
         this.matchup.correctPick = response.data.correctPick
         this.score.homeTeam = ''
         this.score.awayTeam = ''
+        this.$forceUpdate()
+        console.log('Score Updated!')
       }).catch(response => {
         console.log(response)
       })
