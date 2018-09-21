@@ -302,9 +302,11 @@ export default {
             let matchupResults = response.data.scoreboard.gameScore.filter(gameScore => {
               return this.matchup.awayTeam.location === gameScore.game.awayTeam.City && this.matchup.homeTeam.location === gameScore.game.homeTeam.City
             })
-            this.score.homeTeam = matchupResults[0].homeScore
-            this.score.awayTeam = matchupResults[0].awayScore
-            this.updateScore()
+            if (matchupResults[0].isCompleted === 'true') {
+              this.score.homeTeam = matchupResults[0].homeScore
+              this.score.awayTeam = matchupResults[0].awayScore
+              this.updateScore()
+            }
           })
       }
     },
