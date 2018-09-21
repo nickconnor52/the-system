@@ -190,6 +190,7 @@
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
+import moment from 'moment'
 
 export default {
   name: 'matchup',
@@ -214,6 +215,10 @@ export default {
     this.getMatchupStats()
     // TODO ---- CALL ON SELECT WEEK OR GET MATCHUP DETAILS SO THAT IT UPDATES
     // DYNAMICALLY THE STATS OBJECT FOR EACH WEEK/MATCHUP
+
+    if (!this.matchup.score) {
+      this.queryForScore()
+    }
   },
   computed: {
     ...mapState([
@@ -279,6 +284,24 @@ export default {
     }
   },
   methods: {
+    queryForScore () {
+      let gameDate = this.matchup.date.replace(/-/g, '')
+      let today = moment().format('YYYYMMDD')
+      console.log(process.env.VUE_APP_STATS_TOKEN)
+      if (gameDate <= today) {
+        axios({
+          url: 'https://api.mysportsfeeds.com/v1.2/pull/nfl/current/scoreboard.json?fordate=' + gameDate,
+          headers: {
+            'Authorization': 'Basic ' + btoa(process.env.STATS_KEY + ':' + process.env.STATS_PASSWORD),
+            'Content-Type': 'application/json'
+          },
+          method: 'GET'
+        })
+          .then(response => {
+            console.log(response)
+          })
+      }
+    },
     getMatchupStats () {
       axios({
         url: '/api/stats/getMatchupStats',
