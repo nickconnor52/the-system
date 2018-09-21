@@ -298,7 +298,10 @@ export default {
           method: 'GET'
         })
           .then(response => {
-            console.log(response)
+            let score = response.data.scoreboard.gameScore[0]
+            this.score.homeTeam = score.homeScore
+            this.score.awayTeam = score.awayScore
+            console.log(score)
           })
       }
     },
