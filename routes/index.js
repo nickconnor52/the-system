@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var request = require('request');
 
 var mongoose = require("mongoose");
 var ObjectId = mongoose.Types.ObjectId;
@@ -175,6 +176,50 @@ let findAllMatchups = (res) => {
     })
   }).populate('homeTeam awayTeam')
 }
+
+var requestOptions = {
+  url: 'https://therundown-therundown-v1.p.mashape.com/sports/2/events',
+  headers: {
+    'X-Mashape-Key': '03pwKVxLlPmsh8EXE081lIE4xgx7p1N9BlujsnOqYw1YT6ugSf',
+    'X-Mashape-Host': 'therundown-therundown-v1.p.mashape.com',
+    'sport-id': 2
+  }
+};
+
+router.get('/api/updateWeeklyLines', (req, res) => {
+  request(requestOptions, function (error, response, body) {
+    let jsonBody = JSON.parse(body)
+    if (jsonBody['events']) {
+      jsonBody.events.forEach(apiMatchup => {
+        var awayTeam = {}
+        var homeTeam = {}
+
+        // Grab Home and Away Team ID
+        apiMatchup.teams.forEach(team => {
+          if (team.isAway) {
+            awayTeam['normalized_id'] = team['team_normalized_id']
+          } else {
+            homeTeam['normalized_id'] = team['team_normalized_id']
+          }
+        })
+
+        // Grab Location
+        apiMatchup.teams_normalized.forEach(team => {
+          if (team.team_id === awayTeam.normalized_id) {
+            awayTeam['location'] = team.name
+          } else {
+            homeTeam['location'] = team.name
+          }
+        })
+
+        // GRAB MATCHUPS AND UPDATE SPREADS
+
+      })
+
+    }
+    res.send(body)
+  })
+})
 
 let systemOutcome = (matchup) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
