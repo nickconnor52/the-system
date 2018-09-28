@@ -27,10 +27,11 @@
         <h4 class="text-dark">{{matchup.awayTeam['location'] }} {{matchup.awayTeam['name'] }}</h4>
         </div>
       </div>
-      <div class="col-md-2 align-self-center">
+      <div class="col-md-2 align-self-center" style="margin-bottom: 5px">
         <h5 class="align-middle auto-margin">Vegas: {{ matchup.vegasSpread }}</h5>
         <h5 class="align-end auto-margin">TheSystem: {{ this.systemSpread }}</h5>
-        <i v-if="matchup.score && matchup.correctPick" class="far fa-check-circle text-success" style="font-size: 2em; opacity: 0.8"></i>
+        <i v-if="matchup.score && matchupPush" class="push-box" style="font-size: 1.5em;">PUSH</i>
+        <i v-else-if="matchup.score && matchup.correctPick" class="far fa-check-circle text-success" style="font-size: 2em; opacity: 0.8"></i>
         <i v-else-if="matchup.score && !matchup.correctPick" class="far fa-times-circle text-danger" style="font-size: 2em; opacity: 0.8"></i>
       </div>
       <div class="col-md-4">
@@ -275,6 +276,9 @@ export default {
       }
 
       return optionsObject
+    },
+    matchupPush () {
+      return (this.matchup.score.awayTeam - this.matchup.score.homeTeam).toString() === this.matchup.vegasSpread
     }
   },
   watch: {
@@ -420,6 +424,13 @@ li:nth-child(2) { margin-left: auto; }
 
 .score {
   font-size: 1.5em
+}
+
+.push-box {
+  border: 2px solid #262626;
+  box-shadow: 2px 2px 8px grey;
+  padding: 5px;
+  margin-top: 5px;
 }
 
 </style>

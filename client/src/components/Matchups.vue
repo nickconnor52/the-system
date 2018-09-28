@@ -148,29 +148,41 @@ export default {
     overallRecord () {
       let winCount = 0
       let lossCount = 0
+      let pushCount = 0
       this.matchups.forEach(matchup => {
         if (matchup.score) {
-          matchup.correctPick ? winCount++ : lossCount++
+          if (matchup.correctPick) {
+            winCount++
+          } else {
+            matchup.score.homeTeam - matchup.score.awayTeam === (-1 * matchup.vegasSpread) ? pushCount++ : lossCount++
+          }
         }
       })
 
       return {
         'wins': winCount,
-        'losses': lossCount
+        'losses': lossCount,
+        'pushes': pushCount
       }
     },
     weeklyRecord () {
       let winCount = 0
       let lossCount = 0
+      let pushCount = 0
       this.weekMatchups.forEach(matchup => {
         if (matchup.score) {
-          matchup.correctPick ? winCount++ : lossCount++
+          if (matchup.correctPick) {
+            winCount++
+          } else {
+            matchup.score.homeTeam - matchup.score.awayTeam === (-1 * matchup.vegasSpread) ? pushCount++ : lossCount++
+          }
         }
       })
 
       return {
         'wins': winCount,
-        'losses': lossCount
+        'losses': lossCount,
+        'pushes': pushCount
       }
     }
   },
