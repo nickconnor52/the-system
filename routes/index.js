@@ -225,6 +225,12 @@ let systemOutcome = (matchup) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
   let homeTeamFavored = matchup.systemSpread < parseFloat(matchup.vegasSpread)
   let vegasOutcome = scoreDifferential < parseFloat(matchup.vegasSpread)
+
+  // Handle a Push scenario before deciding on result
+  if (scoreDifferential === parseFloat(matchup.vegasSpread)) {
+    return false
+  }
+  
   return vegasOutcome === homeTeamFavored
 }
 

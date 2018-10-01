@@ -154,7 +154,7 @@ export default {
           if (matchup.correctPick) {
             winCount++
           } else {
-            matchup.score.homeTeam - matchup.score.awayTeam === (-1 * matchup.vegasSpread) ? pushCount++ : lossCount++
+            parseFloat(matchup.score.awayTeam - matchup.score.homeTeam) === parseFloat(matchup.vegasSpread) ? pushCount++ : lossCount++
           }
         }
       })
@@ -174,7 +174,7 @@ export default {
           if (matchup.correctPick) {
             winCount++
           } else {
-            matchup.score.homeTeam - matchup.score.awayTeam === (-1 * matchup.vegasSpread) ? pushCount++ : lossCount++
+            parseFloat(matchup.score.awayTeam - matchup.score.homeTeam) === parseFloat(matchup.vegasSpread) ? pushCount++ : lossCount++
           }
         }
       })
