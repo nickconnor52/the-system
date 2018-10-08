@@ -278,7 +278,7 @@ export default {
       return optionsObject
     },
     matchupPush () {
-      return (this.matchup.score.awayTeam - this.matchup.score.homeTeam).toString() === this.matchup.vegasSpread
+      return parseFloat(this.matchup.score.awayTeam - this.matchup.score.homeTeam) === parseFloat(this.matchup.vegasSpread)
     }
   },
   watch: {
