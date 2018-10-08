@@ -5,7 +5,7 @@
     </h1>
     <div class="row justify-content-center">
       <h5 class="col-md-4" v-if="matchups.length !== 0">Overall Record: <span>{{ overallRecord.wins }} - {{ overallRecord.losses }} - {{ overallRecord.pushes }}</span></h5>
-      <h5 class="col-md-4" v-if="weekMatchups.length !== 0">Weekly Record: <span>{{ weeklyRecord.wins }} - {{ weeklyRecord.losses }} - {{ overallRecord.pushes }}</span></h5>
+      <h5 class="col-md-4" v-if="weekMatchups.length !== 0">Weekly Record: <span>{{ weeklyRecord.wins }} - {{ weeklyRecord.losses }} - {{ weeklyRecord.pushes }}</span></h5>
     </div>
     <div class="row justify-content-end">
       <button type="button" class="btn btn-primary" @click="createNewWeek"><i class="fa fa-plus" style="margin-right: 10px"/>Add Week</button>
