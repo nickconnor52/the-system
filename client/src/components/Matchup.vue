@@ -227,10 +227,6 @@ export default {
     teams () {
       return [this.awayTeamStats, this.homeTeamStats]
     },
-    systemSpread () {
-      let rawSpread = parseFloat(this.matchup.systemSpread).toFixed(1)
-      return rawSpread > 0 ? '+' + rawSpread : rawSpread
-    },
     systemSpreadFormatted () {
       let spread = this.roundHalf(this.matchup.systemSpread)
       if (spread > 0) {
