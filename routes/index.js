@@ -131,6 +131,9 @@ router.post('/api/matchups/updateSpread', function(req, res, next) {
     let spreadObject = { spread: currentSpread, date: timestamp }
     matchup.spreadHistory.push(spreadObject)
     matchup.vegasSpread = currentSpread
+    if (matchup.score && matchup.score.awayTeam) {
+      matchup.correctPick = systemOutcome(matchupInfo)
+    }
     matchup.save((err, updatedMatch) => {
       res.send(updatedMatch)
     })
