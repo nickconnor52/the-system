@@ -119,6 +119,8 @@ var generateRawCalculatedProperties = (team, opponent) => {
   calculatedProperties.losPerDrive = offDefStatAverage(team.offLOSDrive, opponent.defLOSDrive)
   calculatedProperties.thirdDownPct = offDefStatAverage(team.off3rdPct, opponent.def3rdPct)
 
+  // TODO ---> Change 9 to be the amount of games played
+  // - Add games played count to DB?
   calculatedProperties.giveTakePerGame = parseInt(team.giveTakeDiff) / 9;
 
   calculatedProperties.rzaPerGame = offDefStatAverage(team.offRZAGame, opponent.defRZAGame)
