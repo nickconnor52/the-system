@@ -132,7 +132,7 @@ router.post('/api/matchups/updateSpread', function(req, res, next) {
     matchup.spreadHistory.push(spreadObject)
     matchup.vegasSpread = currentSpread
     if (matchup.score && matchup.score.awayTeam) {
-      matchup.correctPick = systemOutcome(matchupInfo)
+      matchup.correctPick = systemOutcome(matchupInfo, currentSpread)
     }
     matchup.save((err, updatedMatch) => {
       res.send(updatedMatch)
@@ -224,13 +224,14 @@ router.get('/api/updateWeeklyLines', (req, res) => {
   })
 })
 
-let systemOutcome = (matchup) => {
+let systemOutcome = (matchup, vegasSpread = false) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
-  let homeTeamFavored = matchup.systemSpread < parseFloat(matchup.vegasSpread)
-  let vegasOutcome = scoreDifferential < parseFloat(matchup.vegasSpread)
+  let spread = vegasSpread || matchup.vegasSpread
+  let homeTeamFavored = matchup.systemSpread < parseFloat(spread)
+  let vegasOutcome = scoreDifferential < parseFloat(spread)
 
   // Handle a Push scenario before deciding on result
-  if (scoreDifferential === parseFloat(matchup.vegasSpread)) {
+  if (scoreDifferential === parseFloat(spread)) {
     return false
   }
   
