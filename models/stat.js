@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = mongoose.Types.ObjectId;
 var Team = require("../models/team");
 var homeTeamGlobal = null
+var weekNumberGlobal = ''
 
 var StatSchema = new Schema({
   team: { type: Schema.Types.ObjectId, ref: 'Team' },
@@ -35,13 +36,14 @@ StatSchema.statics.generateSpread = async function (homeTeamId, awayTeamId, week
   awayTeamStats = await findTeamStatsByWeekAndId(awayTeamId, weekNumber)
 
   homeTeamGlobal = await findHomeTeam(homeTeamId)
+  weekNumberGlobal = weekNumber
 
   // Calculated Statistics
-  homeTeamStats.calculatedProperties = generateRawCalculatedProperties(homeTeamStats, awayTeamStats)
-  awayTeamStats.calculatedProperties = generateRawCalculatedProperties(awayTeamStats, homeTeamStats)
+  homeTeamStats.calculatedProperties = await generateRawCalculatedProperties(homeTeamStats, awayTeamStats)
+  awayTeamStats.calculatedProperties = await generateRawCalculatedProperties(awayTeamStats, homeTeamStats)
 
   var systemSpread = applyPointAdjustments(homeTeamStats.calculatedProperties, awayTeamStats.calculatedProperties)
-  
+
   return systemSpread
 }
 
@@ -111,7 +113,7 @@ var applyPointAdjustments = (homeTeam, awayTeam) => {
 
 }
 
-var generateRawCalculatedProperties = (team, opponent) => {
+var generateRawCalculatedProperties = async (team, opponent) => {
   var calculatedProperties = {}
 
   var pointsPerYard = 0.06468441
@@ -120,7 +122,9 @@ var generateRawCalculatedProperties = (team, opponent) => {
   calculatedProperties.thirdDownPct = offDefStatAverage(team.off3rdPct, opponent.def3rdPct)
 
   // TODO ---> Change 9 to be the amount of games played so far
-  calculatedProperties.giveTakePerGame = parseInt(team.giveTakeDiff) / 9;
+  var gamesPlayed = await calculateGamesPlayed(team.team)
+  console.log(gamesPlayed)
+  calculatedProperties.giveTakePerGame = parseInt(team.giveTakeDiff) / parseInt(gamesPlayed);
 
   calculatedProperties.rzaPerGame = offDefStatAverage(team.offRZAGame, opponent.defRZAGame)
   calculatedProperties.ptsPerRZA = offDefStatAverage(team.offPtsRz, opponent.defPtsRz)
@@ -145,6 +149,16 @@ var offDefStatAverage = (teamStat, opponentStat) => {
 var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
   var teamObjId = new ObjectId(teamId.toString())
   return Stat.findOne({ 'team': teamObjId, 'week': weekNumber }, {}, {}).exec()
+}
+
+var calculateGamesPlayed = async (teamId) => {
+  let gamesPlayed = 1
+
+  var team = await findHomeTeam(teamId)
+  var byeWeek = team.byeWeek
+
+  gamesPlayed = parseInt(byeWeek) < parseInt(weekNumberGlobal) ? weekNumberGlobal - 2 : weekNumberGlobal - 1
+  return gamesPlayed
 }
 
 var findHomeTeam = (homeTeamId) => {
