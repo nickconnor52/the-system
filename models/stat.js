@@ -154,6 +154,10 @@ var findTeamStatsByWeekAndId = (teamId, weekNumber) => {
 var calculateGamesPlayed = async (teamId) => {
   let gamesPlayed = 1
 
+  if (weekNumberGlobal == 1) {
+    return 16
+  }
+
   var team = await findHomeTeam(teamId)
   var byeWeek = team.byeWeek
 
