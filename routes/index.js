@@ -193,34 +193,68 @@ router.get('/api/updateWeeklyLines', (req, res) => {
   request(requestOptions, function (error, response, body) {
     let jsonBody = JSON.parse(body)
     if (jsonBody['events']) {
-      jsonBody.events.forEach(apiMatchup => {
+      jsonBody.events.forEach(async apiMatchup => {
         var awayTeam = {}
         var homeTeam = {}
 
         // Grab Home and Away Team ID
         apiMatchup.teams.forEach(team => {
-          if (team.isAway) {
+          if (team['is_away']) {
             awayTeam['normalized_id'] = team['team_normalized_id']
           } else {
             homeTeam['normalized_id'] = team['team_normalized_id']
           }
         })
-
+        
         // Grab Location
         apiMatchup.teams_normalized.forEach(team => {
           if (team.team_id === awayTeam.normalized_id) {
             awayTeam['location'] = team.name
+            awayTeam['abbreviation'] = team.abbreviation
           } else {
             homeTeam['location'] = team.name
+            homeTeam['abbreviation'] = team.abbreviation
           }
         })
 
-        // GRAB MATCHUPS AND UPDATE SPREADS
+        let keys = Object.keys(apiMatchup.lines)
+        let apiSpread = apiMatchup.lines['1'].spread.point_spread_home
+        //  If 5Dimes has no entry, grab next spread available
+        if (!apiSpread) {
+          apiSpread = apiMatchup.lines[keys[0]].spread.point_spread_home
+        }
 
+        //  Chain methods to populate both teams and then update matchup accordingly
+        Team.findOne({nickname: awayTeam.abbreviation}).lean()
+        .then(team => {
+          awayTeam['id'] = team._id
+        })
+        .then(() => {
+          Team.findOne({nickname: homeTeam.abbreviation}).lean()
+          .then(team => {
+            homeTeam['id'] = team._id
+          })
+          .then(() => {
+            Matchup.findOne({homeTeam: homeTeam['id'], awayTeam: awayTeam['id']}).lean()
+            .then(matchup => {
+              if (matchup) {
+                let currentSpread = apiSpread.toString()
+                let timestamp = Date.now()
+                let spreadObject = { spread: currentSpread, date: timestamp }
+                matchup.spreadHistory.push(spreadObject)
+                matchup.vegasSpread = currentSpread
+                Matchup.findByIdAndUpdate(matchup._id, matchup, err => {
+                  console.log(currentSpread)
+                })
+              }
+            })
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
       })
-
     }
-    res.send(body)
   })
 })
 
