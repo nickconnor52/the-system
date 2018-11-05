@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="col-md-2 align-self-center" style="margin-bottom: 5px">
-        <h5 class="align-middle auto-margin">Vegas: {{ matchup.vegasSpread }}</h5>
+        <h5 class="align-middle auto-margin">Vegas: {{ vegasSpreadFormatted }}</h5>
         <h5 class="align-end auto-margin">TheSystem: {{ systemSpreadFormatted }}</h5>
         <i v-if="matchup.score && matchupPush" class="push-box" style="font-size: 1.5em;">PUSH</i>
         <i v-else-if="matchup.score && matchup.correctPick" class="far fa-check-circle text-success" style="font-size: 2em; opacity: 0.8"></i>
@@ -229,6 +229,19 @@ export default {
     },
     systemSpreadFormatted () {
       let spread = this.roundHalf(this.matchup.systemSpread)
+      if (spread > 0) {
+        return '+' + spread
+      } else if (spread === 0) {
+        return 'Pick \'Em'
+      } else {
+        return spread
+      }
+    },
+    vegasSpreadFormatted () {
+      if (!this.matchup.vegasSpread) {
+        return 'No Spread Info'
+      }
+      let spread = this.matchup.vegasSpread.includes('+') ? this.matchup.vegasSpread.substring(1) : this.matchup.vegasSpread
       if (spread > 0) {
         return '+' + spread
       } else if (spread === 0) {
