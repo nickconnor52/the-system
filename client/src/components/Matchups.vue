@@ -8,6 +8,7 @@
       <h5 class="col-md-4" v-if="weekMatchups.length !== 0">Weekly Record: <span>{{ weeklyRecord.wins }} - {{ weeklyRecord.losses }} - {{ weeklyRecord.pushes }}</span></h5>
     </div>
     <div class="row justify-content-end">
+      <button type="button" class="btn btn-primary" @click="syncVegasLines" style="margin-right: 10px"><i class="fa fa-sync-alt" style="margin-right: 10px"></i>Update Vegas Lines</button>
       <button type="button" class="btn btn-primary" @click="createNewWeek"><i class="fa fa-plus" style="margin-right: 10px"/>Add Week</button>
     </div>
     <div class="row week-tab">
@@ -194,6 +195,15 @@ export default {
     })
   },
   methods: {
+    syncVegasLines () {
+      axios({
+        url: '/api/updateWeeklyLines',
+        method: 'GET'
+      })
+        .then(response => {
+          this.fetchMatchups()
+        })
+    },
     createNewWeek () {
       var latestWeek = this.weekCount[this.weekCount.length - 1]
       latestWeek++
