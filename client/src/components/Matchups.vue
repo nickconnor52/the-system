@@ -137,10 +137,10 @@ export default {
           weeks.push(matchup.week)
         }
       })
-      return _.orderBy(weeks)
+      return _.orderBy(weeks, Number)
     },
     descendingWeekCount () {
-      return _.orderBy(this.weekCount, [], ['desc'])
+      return _.orderBy(this.weekCount, Number, ['desc'])
     },
     weekMatchups () {
       let filteredList = this.matchups.filter(matchup => matchup.week === this.activeWeek.toString())
