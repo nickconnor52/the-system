@@ -265,7 +265,7 @@ function requestVegasLines() {
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 });
 }
-setInterval(requestVegasLines, 60000);
+setInterval(requestVegasLines, 7200000);
 
 let systemOutcome = (matchup, vegasSpread = false) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
