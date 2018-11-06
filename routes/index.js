@@ -189,7 +189,7 @@ var requestOptions = {
   }
 };
 
-router.get('/api/updateWeeklyLines', (req, res) => {
+router.get('/api/updateVegasLines', (req, res) => {
   request(requestOptions, function (error, response, body) {
     let jsonBody = JSON.parse(body)
     if (jsonBody['events']) {
@@ -257,6 +257,14 @@ router.get('/api/updateWeeklyLines', (req, res) => {
     }
   })
 })
+
+function requestVegasLines() {
+  request('http://system-picks.herokuapp.com/api/updateVegasLines', function (error, response, body) {
+  console.log('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+});
+}
+setInterval(requestVegasLines, 300000);
 
 let systemOutcome = (matchup, vegasSpread = false) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam

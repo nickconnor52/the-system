@@ -197,7 +197,7 @@ export default {
   methods: {
     syncVegasLines () {
       axios({
-        url: '/api/updateWeeklyLines',
+        url: '/api/updateVegasLines',
         method: 'GET'
       })
         .then(response => {
