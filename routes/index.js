@@ -255,6 +255,7 @@ router.get('/api/updateVegasLines', (req, res) => {
         })
       })
     }
+    res.send(response)
   })
 })
 
@@ -264,7 +265,7 @@ function requestVegasLines() {
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 });
 }
-setInterval(requestVegasLines, 300000);
+setInterval(requestVegasLines, 60000);
 
 let systemOutcome = (matchup, vegasSpread = false) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
