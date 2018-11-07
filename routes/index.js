@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var request = require('request');
+var http = require("http");
 
 var mongoose = require("mongoose");
 var ObjectId = mongoose.Types.ObjectId;
@@ -266,6 +267,11 @@ function requestVegasLines() {
 });
 }
 setInterval(requestVegasLines, 7200000);
+
+// Keep Heroku App awake
+setInterval(function() {
+    http.get("http://system-picks.herokuapp.com");
+}, 300000);
 
 let systemOutcome = (matchup, vegasSpread = false) => {
   let scoreDifferential = matchup.score.awayTeam - matchup.score.homeTeam
