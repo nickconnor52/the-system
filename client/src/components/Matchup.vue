@@ -244,7 +244,7 @@ export default {
       let spread = this.matchup.vegasSpread.includes('+') ? this.matchup.vegasSpread.substring(1) : this.matchup.vegasSpread
       if (spread > 0) {
         return '+' + spread
-      } else if (spread === 0) {
+      } else if (spread === 0 || spread === '0') {
         return 'Pick \'Em'
       } else {
         return spread
