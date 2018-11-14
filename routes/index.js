@@ -141,6 +141,16 @@ router.post('/api/matchups/updateSpread', function(req, res, next) {
   })
 })
 
+router.post('/api/matchups/addMatchupNote', function(req, res, next) {
+  var matchupInfo = req.body
+  Matchup.findById(new ObjectId(matchupInfo._id), function (err, matchup) {
+    matchup.note = matchupInfo.note
+    matchup.save((err, updatedMatchup) => {
+      res.send(updatedMatchup)
+    })
+  })
+})
+
 router.post('/api/stats/getMatchupStats', async function(req, res, next) {
     let homeTeamId = req.body.homeTeam._id
     let awayTeamId = req.body.awayTeam._id

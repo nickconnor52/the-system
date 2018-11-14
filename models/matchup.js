@@ -19,7 +19,8 @@ var MatchupSchema = new Schema({
   correctPick: Boolean,
   spreadHistory: [],
   date: String,
-  time: String
+  time: String,
+  note: String
 });
 
 MatchupSchema.plugin(mongoose_delete, { overrideMethods: 'all'});

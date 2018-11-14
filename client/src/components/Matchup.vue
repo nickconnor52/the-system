@@ -15,7 +15,7 @@
           <i class="nav-link fas fa-sync-alt pointer align-center" @click="updateLine()" />
         </li>
         <li>
-          <i class="nav-link far fa-trash-alt pointer align-center" @click="deleteMatchup()" />
+          <i class="nav-link far fa-edit pointer align-center" @click="showNoteModal=true" />
         </li>
     </ul>
   </div>
@@ -49,6 +49,11 @@
       <div class="offset-md-2 col-md-4">
         <strong class="score">{{matchup.score.homeTeam}}</strong>
       </div>
+      <div>
+      </div>
+    </div>
+    <div v-if="matchup.note">
+      <small><strong>Matchup Note: </strong>{{ matchup.note }}</small>
     </div>
   </div>
 
@@ -111,6 +116,37 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="showScoreModal = false">Close</button>
                 <button type="button" class="btn btn-primary" :disabled="score.homeTeam === '' || score.awayTeam === ''" @click="updateScore()">Submit Score</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
+
+ <!-- Notes Modal --> 
+  <div v-if="showNoteModal">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" style="width: 100%;">{{ matchup.awayTeam.name }} v {{ matchup.homeTeam.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="showNoteModal = false">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body container">
+                <div class="row justify-content-center">
+                  <label class="col-md-3 col-form-label" for="awayScore">Matchup Note:</label>
+                  <textarea type="text" id="note" class="form-control col-md-8" v-model="note" placeholder="Add Matchup Note" style="margin-left: 15px"/>
+                </div>
+                <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="showNoteModal = false">Close</button>
+                <button type="button" class="btn btn-primary" :disabled="note === ''" @click="addNote()">Add Note</button>
               </div>
             </div>
           </div>
@@ -201,6 +237,7 @@ export default {
   data () {
     return {
       showScoreModal: false,
+      showNoteModal: false,
       showMatchupModal: false,
       showSpreadModal: false,
       score: {
@@ -209,7 +246,8 @@ export default {
       },
       updatedSpread: '',
       homeTeamStats: {},
-      awayTeamStats: {}
+      awayTeamStats: {},
+      note: ''
     }
   },
   created () {
@@ -407,6 +445,19 @@ export default {
         this.matchup.spreadHistory = response.data.spreadHistory
         this.matchup.vegasSpread = response.data.vegasSpread
         this.updatedSpread = ''
+      }).catch(response => {
+        console.log(response)
+      })
+    },
+    addNote () {
+      this.matchup.note = this.note
+      axios({
+        url: '/api/matchups/addMatchupNote',
+        method: 'POST',
+        data: this.matchup
+      }).then(response => {
+        this.note = ''
+        this.showNoteModal = false
       }).catch(response => {
         console.log(response)
       })
