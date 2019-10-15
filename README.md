@@ -1,5 +1,7 @@
 # The System
 
+## This repo has been deprecated and moved to the System-Picks repository. Backend has been updated to use Rails
+
 > There's always an edge, we're here to find it.
 
 ### The system finished its first year with a 54% win rate!!
